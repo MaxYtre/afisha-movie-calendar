@@ -22,7 +22,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       - name: Генерация календаря
-        run: python scraper.py --max-movies 500
+        run: python scraper.py --max-movies 500 --max-pages 10
       - name: Commit and Push calendar.ics
         run: |
           git config user.name "github-actions[bot]"
