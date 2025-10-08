@@ -20,7 +20,7 @@ import random
 from urllib.parse import urljoin, quote, urlparse, parse_qs
 
 # Настройки для защиты от бана
-MAX_MOVIES     = None  # None for unlimited or int limit
+MAX_MOVIES     = 3  # None for unlimited or int limit
 MAX_RETRIES    = 8
 BACKOFF_FACTOR = 2
 BASE_DELAY     = 3  # seconds  # seconds
