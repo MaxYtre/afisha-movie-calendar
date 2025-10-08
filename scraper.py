@@ -25,9 +25,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ОПТИМИЗИРОВАННЫЕ параметры для минимизации HTTP 429 с поддержкой пагинации
-MAX_MOVIES = None            # Обрабатываем ВСЕ найденные фильмы
-MAX_PAGES = 10               # Максимум страниц для парсинга
+# ОПТИМИЗИРОВАННЫЕ параметры БЕЗ КАКИХ-ЛИБО лимитов
 MAX_RETRIES = 3              
 BACKOFF_FACTOR = 3           
 BASE_DELAY = 5               
@@ -39,24 +37,12 @@ DETAIL_DELAY = 12
 EXCLUDE_COUNTRIES = ['Россия']
 
 # Аргументы командной строки
-parser = argparse.ArgumentParser(description='Парсер афиши с расписанием сеансов и генерация iCal-календаря')
+parser = argparse.ArgumentParser(description='Полностью безлимитный парсер афиши с расписанием сеансов')
 parser.add_argument(
     '--exclude-country',
     action='append',
     default=[],
     help='Страна, которую не включать в календарь (можно указать несколько)'
-)
-parser.add_argument(
-    '--max-movies',
-    type=int,
-    default=None,
-    help='Максимальное число фильмов для обработки (по умолчанию - все)'
-)
-parser.add_argument(
-    '--max-pages',
-    type=int,
-    default=10,
-    help='Максимальное число страниц для парсинга (по умолчанию - 10)'
 )
 parser.add_argument(
     '--delay',
@@ -69,13 +55,14 @@ parser.add_argument(
     action='store_true',
     help='Пропустить получение детальной информации о фильмах (быстрее, но без стран)'
 )
+# УБРАНЫ аргументы --max-movies и --max-pages
+
 args = parser.parse_args()
 
 # Используем аргументы, если они переданы
 if args.exclude_country:
     EXCLUDE_COUNTRIES = args.exclude_country
-MAX_MOVIES = args.max_movies
-MAX_PAGES = args.max_pages
+
 if args.delay:
     BASE_DELAY = args.delay
 SKIP_DETAILS = args.skip_details
@@ -124,7 +111,6 @@ def get_soup(url, retries=MAX_RETRIES, request_type='default'):
         try:
             logger.debug(f"Запрос {attempt}/{retries} для {url[:60]}...")
 
-            # Предварительная задержка перед каждым запросом
             if attempt > 1:
                 smart_delay('retry')
 
@@ -148,7 +134,6 @@ def get_soup(url, retries=MAX_RETRIES, request_type='default'):
             resp.raise_for_status()
             logger.debug(f"Успешный ответ для {url[:60]}... (статус: {resp.status_code})")
 
-            # Задержка после успешного запроса
             smart_delay(request_type)
 
             return BeautifulSoup(resp.text, 'html.parser')
@@ -177,7 +162,7 @@ def parse_schedule_calendar(soup):
 
     # Поиск календарного виджета
     calendar_selectors = [
-        '.EyErB',  # основной класс календаря
+        '.EyErB',  # основной класс календаря из примера
         '[aria-label="Календарь"]',
         '.calendar',
         '.schedule-calendar'
@@ -199,15 +184,12 @@ def parse_schedule_calendar(soup):
 
     for link in date_links:
         try:
-            # Получаем aria-label для полной информации о дате
             aria_label = link.get('aria-label', '')
-
-            # Также ищем число внутри элемента
             day_elem = link.select_one('.YCVqY')
             if day_elem:
                 day_number = day_elem.get_text(strip=True)
 
-                # Определяем месяц и год из aria-label или контекста
+                # Определяем месяц и год из aria-label
                 if 'октября' in aria_label:
                     month = 10
                     year = 2025
@@ -218,12 +200,10 @@ def parse_schedule_calendar(soup):
                     month = 12
                     year = 2025
                 else:
-                    # По умолчанию текущий месяц
                     now = datetime.now()
                     month = now.month
                     year = now.year
 
-                # Создаем объект даты
                 try:
                     show_date = date(year, month, int(day_number))
                     available_dates.append(show_date)
@@ -237,7 +217,6 @@ def parse_schedule_calendar(soup):
             continue
 
     if available_dates:
-        # Сортируем даты и возвращаем ближайшую
         available_dates.sort()
         nearest_date = available_dates[0]
         logger.debug(f"Ближайшая доступная дата: {nearest_date}")
@@ -252,7 +231,6 @@ def parse_showtimes_from_page(soup):
     """
     showtimes = []
 
-    # Селекторы для времени сеансов
     time_selectors = [
         '.showtime',
         '.session-time', 
@@ -261,12 +239,10 @@ def parse_showtimes_from_page(soup):
         '.screening-time'
     ]
 
-    # Ищем элементы с временем
     for selector in time_selectors:
         time_elements = soup.select(selector)
         for elem in time_elements:
             time_text = elem.get_text(strip=True)
-            # Парсим время в формате HH:MM
             time_match = re.search(r'(\d{1,2}[:.:]\d{2})', time_text)
             if time_match:
                 time_str = time_match.group(1).replace('.', ':')
@@ -277,7 +253,6 @@ def parse_showtimes_from_page(soup):
                 except ValueError:
                     continue
 
-    # Если не нашли селекторы, ищем по всему тексту
     if not showtimes:
         page_text = soup.get_text()
         time_patterns = [
@@ -291,10 +266,9 @@ def parse_showtimes_from_page(soup):
             for match in matches:
                 time_str = match.replace('.', ':')
                 try:
-                    # Проверяем, что это действительно время (не дата)
                     parsed_time = datetime.strptime(time_str, '%H:%M')
                     hour = parsed_time.hour
-                    if 6 <= hour <= 23:  # Разумные часы для сеансов
+                    if 6 <= hour <= 23:
                         if time_str not in showtimes:
                             showtimes.append(time_str)
                 except ValueError:
@@ -302,29 +276,12 @@ def parse_showtimes_from_page(soup):
 
     return showtimes
 
-def check_next_page_exists(soup, current_page, base_url):
-    """
-    Проверить, существует ли следующая страница
-    """
-    next_page = current_page + 1
-    next_url = f"{base_url}page{next_page}/"
-    test_soup = get_soup(next_url, retries=1, request_type='page')
-
-    if test_soup:
-        movie_indicators = ['.movie', '.film', '.schedule', '.cinema', 'article']
-        for indicator in movie_indicators:
-            if test_soup.select(indicator):
-                return True
-
-    return False
-
 def extract_movie_data_from_schedule(soup):
     """
-    Извлечь данные о фильмах из расписания кинотеатров
+    Извлечь ВСЕ данные о фильмах из расписания кинотеатров - БЕЗ КАКИХ-ЛИБО ЛИМИТОВ
     """
     movies_data = []
 
-    # Поиск блоков с фильмами в расписании
     movie_selectors = [
         '.movie-item',
         '.film-item', 
@@ -350,10 +307,13 @@ def extract_movie_data_from_schedule(soup):
             break
 
     if not movie_elements:
-        # Если стандартные селекторы не работают, ищем по ссылкам
+        # Поиск по ссылкам - обрабатываем ВСЕ найденные ссылки
         links = soup.find_all('a', href=True)
         movie_links = [link for link in links if 'movie' in link['href'] or 'film' in link['href']]
 
+        logger.debug(f"Найдено {len(movie_links)} ссылок на фильмы - обрабатываем ВСЕ без исключений")
+
+        # УБРАНО ограничение [:MAX_MOVIES] - обрабатываем ВСЕ
         for idx, link in enumerate(movie_links, 1):
             title = link.get_text(strip=True)
             if title and len(title) > 3:
@@ -366,10 +326,13 @@ def extract_movie_data_from_schedule(soup):
                 }
                 movies_data.append(movie_data)
 
-        logger.debug(f"Найдено {len(movies_data)} фильмов через ссылки")
+        logger.debug(f"Добавлено {len(movies_data)} фильмов через ссылки")
         return movies_data
 
-    # Обработка найденных элементов фильмов
+    # Обработка найденных элементов - ВСЕ БЕЗ ИСКЛЮЧЕНИЯ
+    logger.debug(f"Обрабатываем ВСЕ {len(movie_elements)} найденных элементов фильмов без ограничений")
+
+    # УБРАНО ограничение [:MAX_MOVIES] - обрабатываем ВСЕ элементы
     for idx, element in enumerate(movie_elements, 1):
         try:
             # Поиск названия фильма
@@ -421,7 +384,7 @@ def extract_movie_data_from_schedule(soup):
             }
 
             movies_data.append(movie_data)
-            logger.debug(f"Добавлен фильм: {title} ({len(times)} сеансов)")
+            logger.debug(f"Добавлен фильм {idx}: {title} ({len(times)} сеансов)")
 
         except Exception as e:
             logger.error(f"Ошибка при обработке элемента фильма {idx}: {e}")
@@ -432,14 +395,17 @@ def extract_movie_data_from_schedule(soup):
 
 def parse_all_schedule_pages(base_url):
     """
-    Парсить все страницы расписания с пагинацией
+    Парсить ВСЕ СУЩЕСТВУЮЩИЕ страницы расписания БЕЗ КАКИХ-ЛИБО ЛИМИТОВ
+    Останавливается ТОЛЬКО при достижении несуществующей страницы
     """
     all_movies_data = []
     current_page = 1
 
-    logger.info(f"Начинаем парсинг всех страниц расписания (максимум {MAX_PAGES} страниц)")
+    logger.info(f"🔥 АБСОЛЮТНО БЕЗЛИМИТНЫЙ парсинг ВСЕХ существующих страниц расписания")
+    logger.info("Остановка ТОЛЬКО при достижении несуществующей страницы (404)")
 
-    while current_page <= MAX_PAGES:
+    # УБРАН лимит MAX_PAGES - парсим до тех пор, пока страницы существуют
+    while True:  # БЕСКОНЕЧНЫЙ цикл - останавливается только при 404 или пустой странице
         if current_page == 1:
             page_url = base_url
         else:
@@ -450,18 +416,18 @@ def parse_all_schedule_pages(base_url):
         soup = get_soup(page_url, request_type='page')
 
         if not soup:
-            logger.warning(f"Не удалось получить страницу {current_page}")
+            logger.info(f"❌ Страница {current_page} недоступна (404) - ЗАВЕРШАЕМ парсинг")
             break
 
         page_movies = extract_movie_data_from_schedule(soup)
 
         if not page_movies:
-            logger.info(f"На странице {current_page} не найдено фильмов - завершаем парсинг")
+            logger.info(f"❌ На странице {current_page} не найдено фильмов - ЗАВЕРШАЕМ парсинг")
             break
 
-        logger.info(f"На странице {current_page} найдено {len(page_movies)} фильмов")
+        logger.info(f"✅ На странице {current_page} найдено {len(page_movies)} фильмов")
 
-        # Добавляем фильмы к общему списку, избегая дубликатов
+        # Добавляем ВСЕ фильмы, избегая дубликатов только по названию
         new_movies_count = 0
         existing_titles = {movie['title'] for movie in all_movies_data}
 
@@ -471,20 +437,16 @@ def parse_all_schedule_pages(base_url):
                 existing_titles.add(movie['title'])
                 new_movies_count += 1
 
-        logger.info(f"Добавлено {new_movies_count} новых фильмов (всего: {len(all_movies_data)})")
+        logger.info(f"➕ Добавлено {new_movies_count} новых фильмов (всего: {len(all_movies_data)})")
 
-        if MAX_MOVIES and len(all_movies_data) >= MAX_MOVIES:
-            logger.info(f"Достигнут лимит {MAX_MOVIES} фильмов")
-            all_movies_data = all_movies_data[:MAX_MOVIES]
-            break
-
-        if current_page < MAX_PAGES:
-            has_next = check_next_page_exists(soup, current_page, base_url)
-            if not has_next:
-                logger.info(f"Следующая страница (page{current_page + 1}) не найдена - завершаем парсинг")
-                break
+        # УБРАНА полностью проверка лимита фильмов - продолжаем до конца
 
         current_page += 1
+
+        # Проверяем следующую страницу только для логирования
+        next_page_url = f"{base_url}page{current_page}/"
+        logger.debug(f"🔍 Проверяем наличие страницы {current_page}")
+
         smart_delay('page')
 
     logger.info(f"🎬 ИТОГО найдено {len(all_movies_data)} уникальных фильмов на {current_page - 1} страницах")
@@ -548,24 +510,21 @@ def create_calendar_event(movie_data):
 
     # Определение даты и времени события
     if nearest_show_date:
-        # Используем реальную дату из расписания
         event_date = nearest_show_date
         logger.debug(f"Используется дата из расписания: {event_date}")
     else:
-        # Fallback - завтра
         event_date = datetime.now().date() + timedelta(days=1)
         logger.debug(f"Используется дата по умолчанию: {event_date}")
 
     # Определение времени
     if times:
         try:
-            time_str = times[0]  # Берем первый сеанс
+            time_str = times[0]
             show_time = datetime.strptime(time_str, '%H:%M').time()
             event_datetime = datetime.combine(event_date, show_time)
         except ValueError:
             event_datetime = datetime.combine(event_date, datetime.min.time().replace(hour=19))
     else:
-        # По умолчанию 19:00
         event_datetime = datetime.combine(event_date, datetime.min.time().replace(hour=19))
 
     # Создание события
@@ -595,11 +554,11 @@ def create_calendar_event(movie_data):
 
 def main():
     """
-    Основной цикл парсинга и генерации календаря с реальным расписанием
+    ПОЛНОСТЬЮ БЕЗЛИМИТНЫЙ парсинг и генерация календаря
     """
-    logger.info("🎬 Начало парсинга расписания кинотеатров Перми с РЕАЛЬНЫМИ ДАТАМИ СЕАНСОВ")
-    logger.info(f"Максимум страниц: {MAX_PAGES}")
-    logger.info(f"Ограничение фильмов: {'ОТСУТСТВУЕТ - обрабатываются ВСЕ фильмы' if MAX_MOVIES is None else MAX_MOVIES}")
+    logger.info("🔥 АБСОЛЮТНО БЕЗЛИМИТНЫЙ парсинг расписания кинотеатров Перми")
+    logger.info("❌ НЕТ ЛИМИТОВ: ни на страницы, ни на фильмы")
+    logger.info("🛑 Остановка ТОЛЬКО при: 404 страницы или отсутствии фильмов")
     logger.info(f"Пропуск деталей: {'ДА (только основная информация)' if SKIP_DETAILS else 'НЕТ (полная информация + расписание)'}")
     logger.info(f"Базовая задержка: {BASE_DELAY} сек")
     logger.info(f"Исключенные страны: {EXCLUDE_COUNTRIES}")
@@ -607,7 +566,7 @@ def main():
     base_schedule_url = 'https://www.afisha.ru/prm/schedule_cinema/'
 
     try:
-        # Парсим все страницы расписания
+        # Парсим АБСОЛЮТНО ВСЕ страницы расписания
         all_movies_data = parse_all_schedule_pages(base_schedule_url)
 
         if not all_movies_data:
@@ -624,9 +583,9 @@ def main():
             successful_events = 0
 
             total_movies = len(all_movies_data)
-            logger.info(f"🎯 Начинаем обработку {total_movies} найденных фильмов")
+            logger.info(f"🎯 Начинаем ПОЛНОСТЬЮ БЕЗЛИМИТНУЮ обработку ВСЕХ {total_movies} найденных фильмов")
 
-            # Обработка каждого фильма
+            # Обработка АБСОЛЮТНО КАЖДОГО фильма БЕЗ КАКИХ-ЛИБО ОГРАНИЧЕНИЙ
             for idx, movie_data in enumerate(all_movies_data, 1):
                 try:
                     logger.info(f"Обработка {idx}/{total_movies}: {movie_data['title']}")
@@ -639,7 +598,7 @@ def main():
                         movie_data['countries'] = countries
                         movie_data['nearest_show_date'] = nearest_date
 
-                        # Дополняем время сеансов, если найдено на детальной странице
+                        # Дополняем время сеансов
                         if detailed_times:
                             all_times = list(set(movie_data['times'] + detailed_times))
                             movie_data['times'] = sorted(all_times)
@@ -656,8 +615,8 @@ def main():
                         cal.events.add(event)
                         successful_events += 1
 
-                    # Прогресс каждые 10 фильмов
-                    if idx % 10 == 0:
+                    # Прогресс каждые 50 фильмов (увеличен интервал для больших объемов)
+                    if idx % 50 == 0:
                         logger.info(f"📊 Обработано {idx}/{total_movies} фильмов, создано {successful_events} событий")
 
                     # Дополнительная задержка между фильмами
@@ -677,7 +636,6 @@ def main():
         logger.info(f"📅 Календарь сохранен: calendar.ics ({len(cal.events)} событий)")
         print(f"✅ Готово: сохранён calendar.ics ({len(cal.events)} событий)")
 
-        # Проверка файла
         if os.path.exists('calendar.ics'):
             file_size = os.path.getsize('calendar.ics')
             logger.info(f"📁 Размер файла: {file_size} байт")
