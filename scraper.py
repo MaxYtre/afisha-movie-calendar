@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Конфигурация и параметры
-MAX_MOVIES = 50              # Разумное значение по умолчанию
+MAX_MOVIES = 3              # Разумное значение по умолчанию
 MAX_RETRIES = 5
 BACKOFF_FACTOR = 2
 BASE_DELAY = 2               # seconds
