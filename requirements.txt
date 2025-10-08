@@ -1,3 +1,7 @@
-requests
-beautifulsoup4
-ics
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+icalendar>=5.0.10
+lxml>=4.9.0  # Для ускорения парсинга HTML в BeautifulSoup
+# requests
+# beautifulsoup4
+# ics
