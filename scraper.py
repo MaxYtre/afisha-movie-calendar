@@ -14,7 +14,7 @@ from urllib.parse import urljoin, quote, urlparse, parse_qs
 import argparse
 
 # Конфигурация и параметры
-MAX_MOVIES = None           # None или целое число — лимит фильмов
+MAX_MOVIES = 1           # None или целое число — лимит фильмов
 MAX_RETRIES = 8
 BACKOFF_FACTOR = 2
 BASE_DELAY = 3              # seconds
