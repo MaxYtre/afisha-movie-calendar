@@ -423,7 +423,7 @@ def create_simplified_calendar(movies_list):
         if movie.get('direct_url'):
             description_lines.extend([
                 "🎫 СТРАНИЦА ФИЛЬМА:",
-                f"   👉 {movie['direct_url']}"
+                f"👉 {movie['direct_url']}"
             ])
 
         event.description = "\n".join(description_lines)
