@@ -1,0 +1,68 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
+BEGIN:VEVENT
+DESCRIPTION:Фильм: На деревню дедушке\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/na-derevnyu-dedushke-308610/#rcmrclid=c876bd4f0a194417
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:На деревню дедушке
+UID:a7f066c0-008e-40d4-8a5b-0c65043dbe06@a7f0.org
+URL:https://www.afisha.ru/movie/na-derevnyu-dedushke-308610/#rcmrclid=c876bd4f0a194417
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Тафити. Приключения на краю света\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/tafiti-priklyucheniya-na-krayu-sveta-1000678/#rcmrclid=8ba36ff4e2100d6d
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Тафити. Приключения на краю света
+UID:7d15241c-8cd1-4537-bf69-ae049b3551e1@7d15.org
+URL:https://www.afisha.ru/movie/tafiti-priklyucheniya-na-krayu-sveta-1000678/#rcmrclid=8ba36ff4e2100d6d
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Мир в огне\nСтрана: США\, 2025\, 2024\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=3df36cb85b50af30
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Мир в огне
+UID:c6085dd7-d354-4874-8ce7-dc95edac467e@c608.org
+URL:https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=3df36cb85b50af30
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Дракула\nСтрана: Великобритания\, Франция\, 2025\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=f0b1c0214261ea1b
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Дракула
+UID:7c8ed118-ef41-4381-bee9-035dfc1497bc@7c8e.org
+URL:https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=f0b1c0214261ea1b
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Долгая прогулка\nСтрана: США\, 2025\, 2023\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=ccdf1a40f53807f3
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Долгая прогулка
+UID:71d39380-a141-428a-bf31-5662a2f87893@71d3.org
+URL:https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=ccdf1a40f53807f3
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Дом ада: Спуск к дьяволу\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/dom-ada-spusk-k-dyavolu-1001202/#rcmrclid=4094a97a09e2f294
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Дом ада: Спуск к дьяволу
+UID:bb2191b0-60ed-408e-bef0-ebe437dba2c4@bb21.org
+URL:https://www.afisha.ru/movie/dom-ada-spusk-k-dyavolu-1001202/#rcmrclid=4094a97a09e2f294
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Зверопоезд\nСтрана: Франция\, США\, 2025\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=0a74697bc9c19518
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Зверопоезд
+UID:94d37e69-a4d9-4b82-aa1e-10f25268d25d@94d3.org
+URL:https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=0a74697bc9c19518
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:Фильм: Грабитель с крыши\nДата: 09.10.2025 19:00\nИсточник: https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=786a761a7318d4c8
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:Грабитель с крыши
+UID:2c49e5e6-f87a-4a97-9e40-1d9b00473f84@2c49.org
+URL:https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=786a761a7318d4c8
+END:VEVENT
+END:VCALENDAR
