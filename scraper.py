@@ -26,8 +26,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ОПТИМИЗИРОВАННЫЕ параметры БЕЗ лимитов по умолчанию
-MAX_RETRIES = 3              
-BACKOFF_FACTOR = 3           
+MAX_RETRIES = 5              
+BACKOFF_FACTOR = 5           
 BASE_DELAY = 5               
 RANDOM_DELAY = 3             
 PAGE_DELAY = 8               
