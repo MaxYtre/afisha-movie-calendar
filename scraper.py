@@ -46,7 +46,6 @@ def filter_non_russian(films):
             continue
         result.append(film)
     return result
-Пересоберите и запустите:
 
 def build_calendar(films):
     cal = Calendar()
