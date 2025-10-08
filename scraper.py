@@ -15,19 +15,19 @@ def fetch_month(offset_months):
     return resp.text
 
 def parse_films(html):
-    from bs4 import BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
     items = []
-    for card in soup.select(".data-vyhoda__card"):
-        date_tag = card.select_one(".data-vyhoda__date")
-        if not date_tag: continue
-        date_str = date_tag.text.strip()
-        try:
-            date = datetime.strptime(date_str + f".{datetime.now().year}", "%d.%m.%Y")
-        except:
+    for card in soup.select("a[data-testid='card-link']"):
+        time_tag = card.find("time")
+        if not time_tag or not time_tag.get("datetime"):
             continue
-        link = card.select_one("a")['href']
-        title = card.select_one(".data-vyhoda__title").text.strip()
+        # datetime вида "2025-10-09"
+        date = datetime.fromisoformat(time_tag["datetime"]).date()
+        title_tag = card.find("h3")
+        if not title_tag:
+            continue
+        title = title_tag.text.strip()
+        link = "https://www.afisha.ru" + card["href"]
         items.append({"title": title, "date": date, "link": link})
     return items
 
@@ -36,11 +36,17 @@ def filter_non_russian(films):
     for film in films:
         resp = requests.get(film["link"], headers=HEADERS)
         soup = BeautifulSoup(resp.text, "html.parser")
-        country = soup.select_one(".fact__country")
-        if country and "Россия" in country.text:
+        # ищем страну в блоке «Страна: …»
+        country_text = ""
+        for fact in soup.select(".facts__item"):
+            if "Страна" in fact.text:
+                country_text = fact.text
+                break
+        if "Россия" in country_text:
             continue
         result.append(film)
     return result
+Пересоберите и запустите:
 
 def build_calendar(films):
     cal = Calendar()
