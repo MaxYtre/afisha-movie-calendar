@@ -1,0 +1,31 @@
+name: Weekly Calendar Update
+
+on:
+  schedule:
+    - cron: '0 12 * * MON'
+  workflow_dispatch:
+
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Установка Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Установка зависимостей
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Генерация календаря
+        run: python scraper.py
+      - name: Commit and Push calendar.ics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add calendar.ics
+          git commit -m "Weekly update calendar"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
