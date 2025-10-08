@@ -2,315 +2,379 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
-DESCRIPTION:🎬 Опасные связи\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2024\, 2022\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/3e/69/ca8aa003d6314e9a8540de56693e.png\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\, 8:42\n📅 Ближайший показ: 14.10.2025\n📅 Дата события: 14.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/opasnye-svyazi-1001085/#rcmrclid=a8492c9ac094394f
-DTEND:20251014T213000Z
-DTSTART:20251014T193000Z
-SUMMARY:🎬 Опасные связи
-UID:17109a32-1782-4e4e-8273-7b6a781d73f5@1710.org
-URL:https://www.afisha.ru/movie/opasnye-svyazi-1001085/#rcmrclid=a8492c9ac094394f
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Франкенштейн: Воскрешение\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Великобритания\, 2024\, Триллер\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/4c/d9/abcdf96afab64874bc2b15cad94c.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 05.11.2025\n📅 Дата события: 05.11.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/frankenshteyn-voskreshenie-1000106/#rcmrclid=7f0645a801c91f08
-DTEND:20251105T220000Z
-DTSTART:20251105T200000Z
-SUMMARY:🎬 Франкенштейн: Воскрешение
-UID:00a7e0e5-afaf-4a3e-a3f0-7d40e8941384@00a7.org
-URL:https://www.afisha.ru/movie/frankenshteyn-voskreshenie-1000106/#rcmrclid=7f0645a801c91f08
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Арт-лекторий: Тайная жизнь Уффици\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2025\, Документальный\n🌍 Страна: Германия\, 2021\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/bf/fd/4a00d9418d334b3185399a8cfdbf.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\, 19:25\, 19:30\, 7:52\n📅 Ближайший показ: 10.10.2025\n📅 Дата события: 10.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/art-lektoriy-taynaya-zhizn-uffici-1000783/#rcmrclid=71041dcc86215a3e
-DTEND:20251010T210000Z
-DTSTART:20251010T190000Z
-SUMMARY:🎬 Арт-лекторий: Тайная жизнь Уффици
-UID:fa14a628-0af4-4066-b187-92b239437dff@fa14.org
-URL:https://www.afisha.ru/movie/art-lektoriy-taynaya-zhizn-uffici-1000783/#rcmrclid=71041dcc86215a3e
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Астрал. Свеча ведьмы\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2024\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/7f/72/b50e6a2606d14b25ad46fea7727f.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 13.10.2025\n📅 Дата события: 13.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-svecha-vedmy-1001541/#rcmrclid=ff26957650da1db0
-DTEND:20251013T220000Z
-DTSTART:20251013T200000Z
-SUMMARY:🎬 Астрал. Свеча ведьмы
-UID:33f2df55-b273-4d59-8949-ed86cdb0b7d7@33f2.org
-URL:https://www.afisha.ru/movie/astral-svecha-vedmy-1001541/#rcmrclid=ff26957650da1db0
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Песочный человек\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: США\, 2025\, 2021\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/3f/b3/b6992e393c6644b587cd1ebcb33f.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 21.10.2025\n📅 Дата события: 21.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/pesochniy-chelovek-1000105/#rcmrclid=7263cc18e219a78b
-DTEND:20251021T220000Z
-DTSTART:20251021T200000Z
-SUMMARY:🎬 Песочный человек
-UID:01a15d1e-77b5-42ab-8a6f-23afd8c068d3@01a1.org
-URL:https://www.afisha.ru/movie/pesochniy-chelovek-1000105/#rcmrclid=7263cc18e219a78b
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Изумительная Мокси\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Нидерланды\, Бельгия\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/d0/25/2e65a131d4ec46a1bfecb3d625d0.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 10:40\, 10:50\, 12:35\, 13:00\, 14:00\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 10:40\n\n🔗 Подробности: https://www.afisha.ru/movie/izumitelnaya-moksi-1001083/#rcmrclid=8f0e98e8ff498b84
-DTEND:20251009T124000Z
-DTSTART:20251009T104000Z
-SUMMARY:🎬 Изумительная Мокси
-UID:f38384ca-7311-41d5-985f-829544a408d1@f383.org
-URL:https://www.afisha.ru/movie/izumitelnaya-moksi-1001083/#rcmrclid=8f0e98e8ff498b84
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Неизвестный Джон Леннон\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Документальный\n🌍 Страна: Великобритания\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/43/d2/d08733cfa936416293ba68a1d243.png\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/neizvestniy-dzhon-lennon-1000104/#rcmrclid=ff63dbe0081bb99e
-DTEND:20251008T210000Z
-DTSTART:20251008T190000Z
-SUMMARY:🎬 Неизвестный Джон Леннон
-UID:8f834251-b938-4a80-89eb-124bb37bae56@8f83.org
-URL:https://www.afisha.ru/movie/neizvestniy-dzhon-lennon-1000104/#rcmrclid=ff63dbe0081bb99e
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Сират\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Драма\n🌍 Страна: Франция\, Испания\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/44/20/7e6ee81566f4420c8cd741562044.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 18:00\n📅 Ближайший показ: 25.10.2025\n📅 Дата события: 25.10.2025 18:00\n\n🔗 Подробности: https://www.afisha.ru/movie/sirat-1000827/#rcmrclid=a142db5d0af51d17
-DTEND:20251025T200000Z
-DTSTART:20251025T180000Z
-SUMMARY:🎬 Сират
-UID:bc2c69db-394d-4d15-bb43-7bb0f46d904d@bc2c.org
-URL:https://www.afisha.ru/movie/sirat-1000827/#rcmrclid=a142db5d0af51d17
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Ночь\n==================================================\n⭐ Рейтинг: 7.9\n🔞 Возраст: 16+\n📋 Информация: 2025\, Драма\n🌍 Страна: Франция\, Италия\, 1961\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/31/cc/451deacaa6c74872ae06b1a0cc31.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\, 6:51\, 7:11\, 7:21\, 7:31\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/noch-172736/#rcmrclid=747edec470f8da05
-DTEND:20251008T213000Z
-DTSTART:20251008T193000Z
-SUMMARY:🎬 Ночь
-UID:8cdd88ce-072e-4c61-bd09-6de0a9f427d9@8cdd.org
-URL:https://www.afisha.ru/movie/noch-172736/#rcmrclid=747edec470f8da05
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Те еще каникулы\, или Отпуск на все сто\n==================================================\n⭐ Рейтинг: 6.6\n🔞 Возраст: 12+\n📋 Информация: 2025\, Комедия\n🌍 Страна: 8 отзывов\, Испания\, 2023\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/74/ea/117f589815c04c9593c8af79ea74.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 16:50\, 17:10\, 18:35\, 21:50\, 7:32\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:50\n\n🔗 Подробности: https://www.afisha.ru/movie/te-eshche-kanikuly-ili-otpusk-na-vse-sto-308329/#rcmrclid=bfe673f598c48ad2
-DTEND:20251008T185000Z
-DTSTART:20251008T165000Z
-SUMMARY:🎬 Те еще каникулы\, или Отпуск на все сто
-UID:8ccc25d3-1619-4dde-b175-ad265c98f5fe@8ccc.org
-URL:https://www.afisha.ru/movie/te-eshche-kanikuly-ili-otpusk-na-vse-sto-308329/#rcmrclid=bfe673f598c48ad2
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Пила. Наследие\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2024\, 2015\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/b2/8a/b3ccb7f93db04590acce20ed8ab2.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 17:20\, 20:40\, 21:45\, 22:40\, 23:05\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 17:20\n\n🔗 Подробности: https://www.afisha.ru/movie/pila-nasledie-1001061/#rcmrclid=3f7dc30a10b2c353
-DTEND:20251008T192000Z
-DTSTART:20251008T172000Z
-SUMMARY:🎬 Пила. Наследие
-UID:08b09995-c516-4a8e-bc9d-e9f052201292@08b0.org
-URL:https://www.afisha.ru/movie/pila-nasledie-1001061/#rcmrclid=3f7dc30a10b2c353
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Астрал. Остров проклятых\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Приключение\n🌍 Страна: Индонезия\, 2024\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/e8/03/f3ab57c3d94747b7b2fad5e803e8.png\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-ostrov-proklyatyh-1000097/#rcmrclid=bee17b7a8d814e29
-DTEND:20251009T210000Z
-DTSTART:20251009T190000Z
-SUMMARY:🎬 Астрал. Остров проклятых
-UID:f26b2f97-5e5d-489a-b25f-704eecc33cf0@f26b.org
-URL:https://www.afisha.ru/movie/astral-ostrov-proklyatyh-1000097/#rcmrclid=bee17b7a8d814e29
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Смута\n==================================================\n⭐ Рейтинг: 7.1\n🔞 Возраст: 16+\n📋 Информация: 1985\, Боевик\n🌍 Страна: Франция\, Япония\, 1985\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/f6/38/215873743fad42c8b9376fde38f6.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 18:30\, 7:11\, 7:20\, 7:21\, 7:31\n📅 Ближайший показ: 01.11.2025\n📅 Дата события: 01.11.2025 18:30\n\n🔗 Подробности: https://www.afisha.ru/movie/smuta-175170/#rcmrclid=f321970dd89341ef
+DESCRIPTION:🎬 Смута\n==================================================\n⭐ Рейтинг: 7.1\n🔞 Возраст: 16+\n📋 Информация: 1985\, Боевик\n🌍 Страна: Франция\, Япония\, 1985\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/f6/38/215873743fad42c8b9376fde38f6.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 18:30\, 7:11\, 7:20\, 7:21\, 7:31\n📅 Ближайший показ: 01.11.2025\n📅 Дата события: 01.11.2025 18:30\n\n🔗 Подробности: https://www.afisha.ru/movie/smuta-175170/#rcmrclid=1b1fbd29952e2319
 DTEND:20251101T203000Z
 DTSTART:20251101T183000Z
 SUMMARY:🎬 Смута
-UID:e6b3e10a-9401-487d-9148-85236252092f@e6b3.org
-URL:https://www.afisha.ru/movie/smuta-175170/#rcmrclid=f321970dd89341ef
+UID:56e65f49-b08d-4bdb-aeb3-6c1439250e76@56e6.org
+URL:https://www.afisha.ru/movie/smuta-175170/#rcmrclid=1b1fbd29952e2319
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Зверопоезд\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Франция\, США\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/93/e2/2855c34339fc4cddb57411cce293.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 16:10\, 16:35\, 16:50\, 17:20\, 18:35\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:10\n\n🔗 Подробности: https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=2c6ad57e6d938098
-DTEND:20251008T181000Z
-DTSTART:20251008T161000Z
-SUMMARY:🎬 Зверопоезд
-UID:f9d67dc9-0f1c-4d98-9a9b-ae65090ea6a8@f9d6.org
-URL:https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=2c6ad57e6d938098
+DESCRIPTION:🎬 Эдем\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2024\, 2001\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/18/db/10074ae14e4644dab68873ffdb18.png\n\n🎭 Расписание:\n⏰ Сеансы: 13:05\, 16:15\, 16:45\, 18:00\, 18:11\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 13:05\n\n🔗 Подробности: https://www.afisha.ru/movie/edem-1000775/#rcmrclid=1bac85ea8436b00a
+DTEND:20251009T150500Z
+DTSTART:20251009T130500Z
+SUMMARY:🎬 Эдем
+UID:c7bc0429-18fe-4c0b-b322-9e9aec25def6@c7bc.org
+URL:https://www.afisha.ru/movie/edem-1000775/#rcmrclid=1bac85ea8436b00a
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Кролик Момо: Большая погоня\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Турция\, 2025\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/13/34/856a392ba01b486ead677b7b3413.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 11:55\, 13:00\, 13:25\, 15:50\, 15:55\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 11:55\n\n🔗 Подробности: https://www.afisha.ru/movie/krolik-momo-bolshaya-pogonya-1001785/#rcmrclid=d3c03fbe27ddb66f
-DTEND:20251009T135500Z
-DTSTART:20251009T115500Z
-SUMMARY:🎬 Кролик Момо: Большая погоня
-UID:88eeabe8-75af-46e0-9a68-55da9a8e46ff@88ee.org
-URL:https://www.afisha.ru/movie/krolik-momo-bolshaya-pogonya-1001785/#rcmrclid=d3c03fbe27ddb66f
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Дело семейное\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2025\, 2018\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/83/bc/b05d1881fb874231bf616010bc83.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:30\n📅 Ближайший показ: 16.10.2025\n📅 Дата события: 16.10.2025 20:30\n\n🔗 Подробности: https://www.afisha.ru/movie/delo-semeynoe-1000899/#rcmrclid=c968a2e057456007
-DTEND:20251016T223000Z
-DTSTART:20251016T203000Z
-SUMMARY:🎬 Дело семейное
-UID:84a49ac2-c53b-4436-9ab8-ab2f94ccd254@84a4.org
-URL:https://www.afisha.ru/movie/delo-semeynoe-1000899/#rcmrclid=c968a2e057456007
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Звонок. Последняя сессия\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Комедия\n🌍 Страна: Южная Корея\, 2024\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/a9/01/58204a466f2b46a5b60191c601a9.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 20:55\, 21:00\, 21:25\, 22:05\, 23:30\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 20:55\n\n🔗 Подробности: https://www.afisha.ru/movie/zvonok-poslednyaya-sessiya-1001168/#rcmrclid=cc66dfcb64672fe0
-DTEND:20251008T225500Z
-DTSTART:20251008T205500Z
-SUMMARY:🎬 Звонок. Последняя сессия
-UID:fc31a065-0d39-4f4c-a555-2a9c84ed9ba0@fc31.org
-URL:https://www.afisha.ru/movie/zvonok-poslednyaya-sessiya-1001168/#rcmrclid=cc66dfcb64672fe0
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Долгая прогулка\n==================================================\n⭐ Рейтинг: 6.9\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: США\, 2025\, 2023\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/27/c3/cc6964bd5b30459780714872c327.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 16:15\, 18:50\, 19:00\, 20:00\, 20:20\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:15\n\n🔗 Подробности: https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=a9586cdf245395fc
-DTEND:20251008T181500Z
-DTSTART:20251008T161500Z
-SUMMARY:🎬 Долгая прогулка
-UID:673987de-773e-4b2e-99ea-8c9007262473@6739.org
-URL:https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=a9586cdf245395fc
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 TheatreHD: Оперный фестиваль Россини. Отелло\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Опера\n🌍 Страна: Италия\, 2022\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/62/a8/5c860dcae165404792633b48a862.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 15:00\, 7:32\n📅 Ближайший показ: 12.10.2025\n📅 Дата события: 12.10.2025 15:00\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-operniy-festival-rossini-otello-1001448/#rcmrclid=0edda269bc4a4187
-DTEND:20251012T170000Z
-DTSTART:20251012T150000Z
-SUMMARY:🎬 TheatreHD: Оперный фестиваль Россини. Отелло
-UID:edc83e65-0905-42af-8016-07d7a829a2f3@edc8.org
-URL:https://www.afisha.ru/movie/theatrehd-operniy-festival-rossini-otello-1001448/#rcmrclid=0edda269bc4a4187
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Джульетта и духи\n==================================================\n⭐ Рейтинг: 7.2\n🔞 Возраст: 16+\n📋 Информация: 2025\, Фэнтези\n🌍 Страна: Франция\, Италия\, 1965\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/37/e4/71e3d38ee8b54d23bd102ab7e437.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 12:30\, 14:15\, 17:40\, 6:21\, 7:11\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 12:30\n\n🔗 Подробности: https://www.afisha.ru/movie/dzhuletta-i-duhi-167349/#rcmrclid=f4e2da7e94b47a11
+DESCRIPTION:🎬 Джульетта и духи\n==================================================\n⭐ Рейтинг: 7.2\n🔞 Возраст: 16+\n📋 Информация: 2025\, Фэнтези\n🌍 Страна: Франция\, Италия\, 1965\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/37/e4/71e3d38ee8b54d23bd102ab7e437.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 12:30\, 14:15\, 17:40\, 6:21\, 7:11\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 12:30\n\n🔗 Подробности: https://www.afisha.ru/movie/dzhuletta-i-duhi-167349/#rcmrclid=33e477878484c42b
 DTEND:20251009T143000Z
 DTSTART:20251009T123000Z
 SUMMARY:🎬 Джульетта и духи
-UID:59462b1d-caac-4974-9c33-50998efc3af6@5946.org
-URL:https://www.afisha.ru/movie/dzhuletta-i-duhi-167349/#rcmrclid=f4e2da7e94b47a11
+UID:e34606aa-c18e-4e2e-a2e7-ca5e1afee0aa@e346.org
+URL:https://www.afisha.ru/movie/dzhuletta-i-duhi-167349/#rcmrclid=33e477878484c42b
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Грабитель с крыши\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2025\, Трагикомедия\n🌍 Страна: США\, 2025\, 2012\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/f6/6f/7ec5dbec95534243bb96bb066ff6.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 11:20\, 14:45\, 19:00\, 19:10\, 20:10\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 11:20\n\n🔗 Подробности: https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=dd3eb80ccc3a0d46
-DTEND:20251009T132000Z
-DTSTART:20251009T112000Z
-SUMMARY:🎬 Грабитель с крыши
-UID:432c3af2-3031-4594-a1cd-e635039e2099@432c.org
-URL:https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=dd3eb80ccc3a0d46
+DESCRIPTION:🎬 Палладио. Власть архитектуры\n==================================================\n🔞 Возраст: 12+\n📋 Информация: 2019\, Документальный\n🌍 Страна: Италия\, 2019\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/28/69/7c1ddb4c56624b2f9ac779f16928.jpeg\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/palladio-vlast-arhitektury-257456/#rcmrclid=f9ec664c5a046881
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:🎬 Палладио. Власть архитектуры
+UID:b0c438fe-2b78-4321-b4ff-fe5306ca1d70@b0c4.org
+URL:https://www.afisha.ru/movie/palladio-vlast-arhitektury-257456/#rcmrclid=f9ec664c5a046881
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Босх: Сад сновидений\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2016\, Документальный\n🌍 Страна: Испания\, Франция\, 2016\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/d6/4b/781654e979ff48bfbb395ee14bd6.png\n\n🎭 Расписание:\n⏰ Сеансы: 19:05\, 19:30\, 8:22\, 8:32\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:05\n\n🔗 Подробности: https://www.afisha.ru/movie/bosh-sad-snovideniy-296188/#rcmrclid=b6effd9501e13faf
-DTEND:20251008T210500Z
-DTSTART:20251008T190500Z
-SUMMARY:🎬 Босх: Сад сновидений
-UID:aebca629-7a98-46e1-a41b-e6017f0c2dd8@aebc.org
-URL:https://www.afisha.ru/movie/bosh-sad-snovideniy-296188/#rcmrclid=b6effd9501e13faf
+DESCRIPTION:🎬 TheatreHD: Эдвард Клюг. Кармина Бурана\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2024\, Балет\n🌍 Страна: Словения\, 2023\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/0c/bb/8d7deb59621b47bc95f5a83cbb0c.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\, 8:42\n📅 Ближайший показ: 13.10.2025\n📅 Дата события: 13.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-edvard-klyug-karmina-burana-308086/#rcmrclid=e7197f329c8a4af4
+DTEND:20251013T213000Z
+DTSTART:20251013T193000Z
+SUMMARY:🎬 TheatreHD: Эдвард Клюг. Кармина Бурана
+UID:0e7fe7fc-c0b1-4d0b-bbf9-aabd71f202a4@0e7f.org
+URL:https://www.afisha.ru/movie/theatrehd-edvard-klyug-karmina-burana-308086/#rcmrclid=e7197f329c8a4af4
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Алые паруса\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2024\, Исторический\n🌍 Страна: Франция\, Италия\, Германия\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/c6/03/42b7203533244e03b2ccc65c03c6.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\n📅 Ближайший показ: 14.10.2025\n📅 Дата события: 14.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/alye-parusa-294661/#rcmrclid=334a2bfa1a73b66e
-DTEND:20251014T210000Z
-DTSTART:20251014T190000Z
-SUMMARY:🎬 Алые паруса
-UID:7e18c877-c643-4d53-b71e-a786c0377e34@7e18.org
-URL:https://www.afisha.ru/movie/alye-parusa-294661/#rcmrclid=334a2bfa1a73b66e
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Выход 8\n==================================================\n⭐ Рейтинг: 6.7\n🔞 Возраст: 16+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Япония\, 2025\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/3d/cb/a863e38728914c2c80c3289bcb3d.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 18:45\, 20:00\, 20:40\, 21:40\, 22:00\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 18:45\n\n🔗 Подробности: https://www.afisha.ru/movie/vyhod-8-1000762/#rcmrclid=32087d4f1777a9a0
-DTEND:20251008T204500Z
-DTSTART:20251008T184500Z
-SUMMARY:🎬 Выход 8
-UID:b8ab3e3f-3826-445a-8a34-e06c0f62063c@b8ab.org
-URL:https://www.afisha.ru/movie/vyhod-8-1000762/#rcmrclid=32087d4f1777a9a0
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Цвета времени\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: Франция\, Бельгия\, 2025\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/ed/39/b8942f84d10c4cd2ae2629cc39ed.png\n\n🎭 Расписание:\n⏰ Сеансы: 19:42\, 20:00\, 20:40\, 21:00\, 22:15\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:42\n\n🔗 Подробности: https://www.afisha.ru/movie/cveta-vremeni-1001167/#rcmrclid=94cf66c82e550b83
-DTEND:20251008T214200Z
-DTSTART:20251008T194200Z
-SUMMARY:🎬 Цвета времени
-UID:84b3d54e-9eb4-4ae0-8f69-cbeb41cbebd0@84b3.org
-URL:https://www.afisha.ru/movie/cveta-vremeni-1001167/#rcmrclid=94cf66c82e550b83
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Новая волна\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Биография\n🌍 Страна: Франция\, США\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/4c/8c/9acd1e1fda7540baa9bf936b8c4c.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\, 19:42\, 6:51\, 7:31\, 7:40\n📅 Ближайший показ: 26.10.2025\n📅 Дата события: 26.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/novaya-volna-1000804/#rcmrclid=e98b6cc1dcd36d73
+DESCRIPTION:🎬 Новая волна\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Биография\n🌍 Страна: Франция\, США\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/4c/8c/9acd1e1fda7540baa9bf936b8c4c.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\, 19:42\, 6:51\, 7:31\, 7:40\n📅 Ближайший показ: 26.10.2025\n📅 Дата события: 26.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/novaya-volna-1000804/#rcmrclid=e90898a78351cd49
 DTEND:20251026T210000Z
 DTSTART:20251026T190000Z
 SUMMARY:🎬 Новая волна
-UID:462d7f88-a655-4fe5-b9de-64bf0ca2659c@462d.org
-URL:https://www.afisha.ru/movie/novaya-volna-1000804/#rcmrclid=e98b6cc1dcd36d73
+UID:83c11038-25fb-4040-884f-125f32a9bce1@83c1.org
+URL:https://www.afisha.ru/movie/novaya-volna-1000804/#rcmrclid=e90898a78351cd49
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Ужастики. Ожившие рисунки\n==================================================\n🔞 Возраст: 12+\n📋 Информация: 2025\, Приключение\n🌍 Страна: США\, 2024\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/2e/0a/bf4161f53768431bb6edbc460a2e.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 11:00\, 11:10\, 11:20\, 12:25\, 15:15\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 11:00\n\n🔗 Подробности: https://www.afisha.ru/movie/uzhastiki-ozhivshie-risunki-1001302/#rcmrclid=95485ff82e75cbc2
-DTEND:20251009T130000Z
-DTSTART:20251009T110000Z
-SUMMARY:🎬 Ужастики. Ожившие рисунки
-UID:f88d40b5-4c99-49f4-90a6-5744d0825d21@f88d.org
-URL:https://www.afisha.ru/movie/uzhastiki-ozhivshie-risunki-1001302/#rcmrclid=95485ff82e75cbc2
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Хэллоуин. Ночной кошмар\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2025\, 2017\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/ea/15/e6cd0d48c610449694d37e2115ea.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 29.10.2025\n📅 Дата события: 29.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/hellouin-nochnoy-koshmar-1001080/#rcmrclid=21b7e5dabaaf97fe
-DTEND:20251029T220000Z
-DTSTART:20251029T200000Z
-SUMMARY:🎬 Хэллоуин. Ночной кошмар
-UID:00a1b250-0163-447e-86e1-47d193bfb46b@00a1.org
-URL:https://www.afisha.ru/movie/hellouin-nochnoy-koshmar-1001080/#rcmrclid=21b7e5dabaaf97fe
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Человек-слон\n==================================================\n⭐ Рейтинг: 7.9\n🔞 Возраст: 18+\n📋 Информация: 2025\, Биография\n🌍 Страна: США\, Великобритания\, 1980\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/c2/8d/e9cfc34b5a334acaa083d1738dc2.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:30\, 6:21\, 6:31\, 7:11\, 7:41\n📅 Ближайший показ: 19.10.2025\n📅 Дата события: 19.10.2025 20:30\n\n🔗 Подробности: https://www.afisha.ru/movie/chelovek-slon-171393/#rcmrclid=61ac194e9963b377
-DTEND:20251019T223000Z
-DTSTART:20251019T203000Z
-SUMMARY:🎬 Человек-слон
-UID:9418719b-8402-4f7e-aaa3-9ef41be87789@9418.org
-URL:https://www.afisha.ru/movie/chelovek-slon-171393/#rcmrclid=61ac194e9963b377
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 На посошок\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Драма\n🌍 Страна: Италия\, Германия\, 2025\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/2d/12/dd034882ed094db6ad04a893122d.webp\n\n🎭 Расписание:\n⏰ Сеансы: 17:20\, 19:15\, 20:25\, 20:45\, 7:52\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 17:20\n\n🔗 Подробности: https://www.afisha.ru/movie/na-pososhok-1000934/#rcmrclid=c79455b59d875b9f
-DTEND:20251008T192000Z
-DTSTART:20251008T172000Z
-SUMMARY:🎬 На посошок
-UID:eab33474-f9aa-460f-a969-15e20624e6c4@eab3.org
-URL:https://www.afisha.ru/movie/na-pososhok-1000934/#rcmrclid=c79455b59d875b9f
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Астрал: 13 инкарнаций зла\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: Южная Корея\, 2025\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/65/aa/ac03dd89f58548e4b7d3fa4eaa65.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 25.11.2025\n📅 Дата события: 25.11.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-13-inkarnaciy-zla-308517/#rcmrclid=1d20e6ed9ce2cd40
-DTEND:20251125T220000Z
-DTSTART:20251125T200000Z
-SUMMARY:🎬 Астрал: 13 инкарнаций зла
-UID:a4f72e95-8e49-4f1a-ad09-0707ac4f9dc6@a4f7.org
-URL:https://www.afisha.ru/movie/astral-13-inkarnaciy-zla-308517/#rcmrclid=1d20e6ed9ce2cd40
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Астрал. Зеркала\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: Индонезия\, 2024\, 2019\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/c9/13/07c0b2987cdb478ab23611ce13c9.png\n\n🎭 Расписание:\n⏰ Сеансы: 16:30\, 18:00\, 21:35\, 21:40\, 22:10\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:30\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-zerkala-308646/#rcmrclid=b664ec8962145756
-DTEND:20251008T183000Z
-DTSTART:20251008T163000Z
-SUMMARY:🎬 Астрал. Зеркала
-UID:75026b32-c2de-4ecd-9daf-5216b9608fd1@7502.org
-URL:https://www.afisha.ru/movie/astral-zerkala-308646/#rcmrclid=b664ec8962145756
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Эдем\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2024\, 2001\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/18/db/10074ae14e4644dab68873ffdb18.png\n\n🎭 Расписание:\n⏰ Сеансы: 12:40\, 14:00\, 18:11\, 20:20\, 20:50\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 12:40\n\n🔗 Подробности: https://www.afisha.ru/movie/edem-1000775/#rcmrclid=a836da855a549557
-DTEND:20251009T144000Z
-DTSTART:20251009T124000Z
-SUMMARY:🎬 Эдем
-UID:69f260df-b18c-47ef-aacc-e042ac3af5d9@69f2.org
-URL:https://www.afisha.ru/movie/edem-1000775/#rcmrclid=a836da855a549557
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Дракула\n==================================================\n⭐ Рейтинг: 6.6\n🔞 Возраст: 18+\n📋 Информация: 2025\, Фэнтези\n🌍 Страна: Великобритания\, Франция\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/5f/e1/0251b96a05df49359bf8e090e15f.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 16:10\, 16:20\, 16:30\, 17:10\, 17:50\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:10\n\n🔗 Подробности: https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=0406a8127a88fba6
-DTEND:20251008T181000Z
-DTSTART:20251008T161000Z
-SUMMARY:🎬 Дракула
-UID:db4d8ce3-f8df-435f-b194-50b49cff5b05@db4d.org
-URL:https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=0406a8127a88fba6
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Мир в огне\n==================================================\n⭐ Рейтинг: 6.3\n🔞 Возраст: 18+\n📋 Информация: 2025\, Фантастика\n🌍 Страна: США\, 2025\, 2024\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/84/bd/6237412b63be4df493c5c235bd84.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 18:50\, 20:20\, 20:30\, 21:15\, 21:35\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 18:50\n\n🔗 Подробности: https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=75a51706204098a6
-DTEND:20251008T205000Z
-DTSTART:20251008T185000Z
-SUMMARY:🎬 Мир в огне
-UID:db293bfa-692c-4d93-b6d8-2f426f55757b@db29.org
-URL:https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=75a51706204098a6
-END:VEVENT
-BEGIN:VEVENT
-DESCRIPTION:🎬 Заклятие. Последний ритуал\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: Таиланд\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/36/04/a9b8f6cd928e48f1a17dc58f0436.jpg\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/zaklyatie-posledniy-ritual-1000918/#rcmrclid=0f07def60e971632
+DESCRIPTION:🎬 Астрал. Остров проклятых\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Приключение\n🌍 Страна: Индонезия\, 2024\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/e8/03/f3ab57c3d94747b7b2fad5e803e8.png\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-ostrov-proklyatyh-1000097/#rcmrclid=6c366fbdbe866761
 DTEND:20251009T210000Z
 DTSTART:20251009T190000Z
-SUMMARY:🎬 Заклятие. Последний ритуал
-UID:3540a91e-bc99-41e2-8538-0a3f37a44edf@3540.org
-URL:https://www.afisha.ru/movie/zaklyatie-posledniy-ritual-1000918/#rcmrclid=0f07def60e971632
+SUMMARY:🎬 Астрал. Остров проклятых
+UID:46ecf372-41a6-4174-b307-34e0d9ca3427@46ec.org
+URL:https://www.afisha.ru/movie/astral-ostrov-proklyatyh-1000097/#rcmrclid=6c366fbdbe866761
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 TheatreHD: Эгон Шиле. Автопортрет\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Балет\n🌍 Страна: Чехия\, 2024\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/9c/4b/586c13ee20064b92871e474d4b9c.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:10\, 19:20\, 19:30\, 19:50\, 8:22\n📅 Ближайший показ: 15.10.2025\n📅 Дата события: 15.10.2025 19:10\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-egon-shile-avtoportret-1001772/#rcmrclid=2c1ef0d7077c05b0
-DTEND:20251015T211000Z
-DTSTART:20251015T191000Z
-SUMMARY:🎬 TheatreHD: Эгон Шиле. Автопортрет
-UID:ab145464-f595-4223-96c5-5c96c5f7aa94@ab14.org
-URL:https://www.afisha.ru/movie/theatrehd-egon-shile-avtoportret-1001772/#rcmrclid=2c1ef0d7077c05b0
+DESCRIPTION:🎬 Зверопоезд\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Франция\, США\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/93/e2/2855c34339fc4cddb57411cce293.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 10:00\, 10:35\, 10:40\, 13:00\, 13:40\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 10:00\n\n🔗 Подробности: https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=afe27b168bf5469d
+DTEND:20251009T120000Z
+DTSTART:20251009T100000Z
+SUMMARY:🎬 Зверопоезд
+UID:54a824ef-8f22-44ad-934c-de985a3c6f32@54a8.org
+URL:https://www.afisha.ru/movie/zveropoezd-1001045/#rcmrclid=afe27b168bf5469d
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Паранормальное явление. Шум\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Южная Корея\, 2024\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/66/61/6309ec592740461689141d7b6166.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\n📅 Ближайший показ: 17.10.2025\n📅 Дата события: 17.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/paranormalnoe-yavlenie-shum-1000637/#rcmrclid=3657432bb14cb48f
+DESCRIPTION:🎬 TheatreHD: Зальцбург. Игрок\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Опера\n🌍 Страна: Австрия\, 2024\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/a1/6f/717f25923cbe43f7bcddc75c6fa1.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 15:00\n📅 Ближайший показ: 26.10.2025\n📅 Дата события: 26.10.2025 15:00\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-zalcburg-igrok-1001650/#rcmrclid=279819ae5354e0a4
+DTEND:20251026T170000Z
+DTSTART:20251026T150000Z
+SUMMARY:🎬 TheatreHD: Зальцбург. Игрок
+UID:a024fc81-bef6-4a5d-9ec2-0ab5be4a30ab@a024.org
+URL:https://www.afisha.ru/movie/theatrehd-zalcburg-igrok-1001650/#rcmrclid=279819ae5354e0a4
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Горец\n==================================================\n⭐ Рейтинг: 6.8\n🔞 Возраст: 18+\n📋 Информация: 2025\, Боевик\n🌍 Страна: 5 отзывов\, США\, Великобритания\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/6d/3a/eb24af129d9547d2a3eae72b3a6d.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 21:45\, 21:55\, 22:20\, 22:50\, 6:11\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 21:45\n\n🔗 Подробности: https://www.afisha.ru/movie/gorec-167445/#rcmrclid=073a01824f0cddcd
+DTEND:20251008T234500Z
+DTSTART:20251008T214500Z
+SUMMARY:🎬 Горец
+UID:38744771-5704-4e07-9f24-dbff0780ca56@3874.org
+URL:https://www.afisha.ru/movie/gorec-167445/#rcmrclid=073a01824f0cddcd
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Босх: Сад сновидений\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2016\, Документальный\n🌍 Страна: Испания\, Франция\, 2016\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/d6/4b/781654e979ff48bfbb395ee14bd6.png\n\n🎭 Расписание:\n⏰ Сеансы: 18:00\, 19:42\n📅 Ближайший показ: 18.10.2025\n📅 Дата события: 18.10.2025 18:00\n\n🔗 Подробности: https://www.afisha.ru/movie/bosh-sad-snovideniy-296188/#rcmrclid=927a00d4377bfab9
+DTEND:20251018T200000Z
+DTSTART:20251018T180000Z
+SUMMARY:🎬 Босх: Сад сновидений
+UID:64eff7ab-da93-4511-83fa-6ffc91abeafd@64ef.org
+URL:https://www.afisha.ru/movie/bosh-sad-snovideniy-296188/#rcmrclid=927a00d4377bfab9
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 На посошок\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Драма\n🌍 Страна: Италия\, Германия\, 2025\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/2d/12/dd034882ed094db6ad04a893122d.webp\n\n🎭 Расписание:\n⏰ Сеансы: 10:20\, 12:00\, 15:30\, 17:40\, 22:50\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 10:20\n\n🔗 Подробности: https://www.afisha.ru/movie/na-pososhok-1000934/#rcmrclid=0aa0189a823bcc6d
+DTEND:20251009T122000Z
+DTSTART:20251009T102000Z
+SUMMARY:🎬 На посошок
+UID:97897578-f542-43ef-9911-0a3ec845c53d@9789.org
+URL:https://www.afisha.ru/movie/na-pososhok-1000934/#rcmrclid=0aa0189a823bcc6d
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Версаче\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2023\, Документальный\n🌍 Страна: США\, 2022\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/c1/05/ad307491f1a544338b099a0c05c1.jpg\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/versache-295187/#rcmrclid=d0f6dce18e71fa80
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:🎬 Версаче
+UID:c840dcae-e175-4d25-9815-8306364592b2@c840.org
+URL:https://www.afisha.ru/movie/versache-295187/#rcmrclid=d0f6dce18e71fa80
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 TheatreHD: Курентзис. Пассажирка\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Опера\n🌍 Страна: Австрия\, 2010\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/5d/15/8653be73e39e4ca4bd6193df155d.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 18:00\, 19:42\n📅 Ближайший показ: 25.10.2025\n📅 Дата события: 25.10.2025 18:00\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-kurentzis-passazhirka-308941/#rcmrclid=30876071346618fa
+DTEND:20251025T200000Z
+DTSTART:20251025T180000Z
+SUMMARY:🎬 TheatreHD: Курентзис. Пассажирка
+UID:ac26cc44-b5e7-48b7-a3f4-05d8f05049fb@ac26.org
+URL:https://www.afisha.ru/movie/theatrehd-kurentzis-passazhirka-308941/#rcmrclid=30876071346618fa
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Паранормальное явление. Шум\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Южная Корея\, 2024\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/66/61/6309ec592740461689141d7b6166.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\n📅 Ближайший показ: 17.10.2025\n📅 Дата события: 17.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/paranormalnoe-yavlenie-shum-1000637/#rcmrclid=ffa1dd0cfb5baf96
 DTEND:20251017T220000Z
 DTSTART:20251017T200000Z
 SUMMARY:🎬 Паранормальное явление. Шум
-UID:77140cd0-292c-4650-bbfe-ee83b412c5ae@7714.org
-URL:https://www.afisha.ru/movie/paranormalnoe-yavlenie-shum-1000637/#rcmrclid=3657432bb14cb48f
+UID:ad070367-9547-4da9-aac5-2bfe0f749c77@ad07.org
+URL:https://www.afisha.ru/movie/paranormalnoe-yavlenie-shum-1000637/#rcmrclid=ffa1dd0cfb5baf96
 END:VEVENT
 BEGIN:VEVENT
-DESCRIPTION:🎬 Горец\n==================================================\n⭐ Рейтинг: 6.8\n🔞 Возраст: 18+\n📋 Информация: 2025\, Боевик\n🌍 Страна: 5 отзывов\, США\, Великобритания\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/6d/3a/eb24af129d9547d2a3eae72b3a6d.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 16:50\, 17:00\, 20:35\, 22:20\, 22:50\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 16:50\n\n🔗 Подробности: https://www.afisha.ru/movie/gorec-167445/#rcmrclid=e11696671ab65e8b
-DTEND:20251008T185000Z
-DTSTART:20251008T165000Z
-SUMMARY:🎬 Горец
-UID:c1bc0632-d140-4089-abff-155b074468a7@c1bc.org
-URL:https://www.afisha.ru/movie/gorec-167445/#rcmrclid=e11696671ab65e8b
+DESCRIPTION:🎬 Грабитель с крыши\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2025\, Трагикомедия\n🌍 Страна: США\, 2025\, 2012\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/f6/6f/7ec5dbec95534243bb96bb066ff6.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 15:35\, 17:50\, 18:35\, 20:50\, 21:10\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 15:35\n\n🔗 Подробности: https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=0810d984ef287095
+DTEND:20251009T173500Z
+DTSTART:20251009T153500Z
+SUMMARY:🎬 Грабитель с крыши
+UID:9a60d5a8-a2fa-4746-98ac-4a8d7f6cd7b1@9a60.org
+URL:https://www.afisha.ru/movie/grabitel-s-kryshi-308410/#rcmrclid=0810d984ef287095
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Дело семейное\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2025\, 2018\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/83/bc/b05d1881fb874231bf616010bc83.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:30\n📅 Ближайший показ: 16.10.2025\n📅 Дата события: 16.10.2025 20:30\n\n🔗 Подробности: https://www.afisha.ru/movie/delo-semeynoe-1000899/#rcmrclid=d12616fa2ab154d4
+DTEND:20251016T223000Z
+DTSTART:20251016T203000Z
+SUMMARY:🎬 Дело семейное
+UID:f21c9246-1429-42c1-9a6f-104af1200c6f@f21c.org
+URL:https://www.afisha.ru/movie/delo-semeynoe-1000899/#rcmrclid=d12616fa2ab154d4
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Астрал. Свеча ведьмы\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2024\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/7f/72/b50e6a2606d14b25ad46fea7727f.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 13.10.2025\n📅 Дата события: 13.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-svecha-vedmy-1001541/#rcmrclid=8f0c3d74a93af50b
+DTEND:20251013T220000Z
+DTSTART:20251013T200000Z
+SUMMARY:🎬 Астрал. Свеча ведьмы
+UID:0cd3e320-6e93-4c64-9e73-b98f917fa7d1@0cd3.org
+URL:https://www.afisha.ru/movie/astral-svecha-vedmy-1001541/#rcmrclid=8f0c3d74a93af50b
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 TheatreHD: Теодор Курентзис. Бунтарь от классики\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Короткометражный\n🌍 Страна: Германия\, Австрия\, 2016\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/a0/14/d77945993f884ee9b296874814a0.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\n📅 Ближайший показ: 12.10.2025\n📅 Дата события: 12.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-teodor-kurentzis-buntar-ot-klassiki-1001863/#rcmrclid=0bbba6ffafadddb2
+DTEND:20251012T220000Z
+DTSTART:20251012T200000Z
+SUMMARY:🎬 TheatreHD: Теодор Курентзис. Бунтарь от классики
+UID:afd2692e-df16-4f46-a387-9f039636f928@afd2.org
+URL:https://www.afisha.ru/movie/theatrehd-teodor-kurentzis-buntar-ot-klassiki-1001863/#rcmrclid=0bbba6ffafadddb2
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Выход 8\n==================================================\n⭐ Рейтинг: 6.7\n🔞 Возраст: 16+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Япония\, 2025\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/3d/cb/a863e38728914c2c80c3289bcb3d.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 22:05\, 22:45\, 23:00\, 8:12\, 8:42\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 22:05\n\n🔗 Подробности: https://www.afisha.ru/movie/vyhod-8-1000762/#rcmrclid=34414fc726232ab7
+DTEND:20251009T000500Z
+DTSTART:20251008T220500Z
+SUMMARY:🎬 Выход 8
+UID:1eb44484-70cb-4bc4-b2ac-7053650cf558@1eb4.org
+URL:https://www.afisha.ru/movie/vyhod-8-1000762/#rcmrclid=34414fc726232ab7
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Арт-лекторий: Тайная жизнь Уффици\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2025\, Документальный\n🌍 Страна: Германия\, 2021\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/bf/fd/4a00d9418d334b3185399a8cfdbf.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:00\, 19:25\, 19:30\, 7:52\n📅 Ближайший показ: 10.10.2025\n📅 Дата события: 10.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/art-lektoriy-taynaya-zhizn-uffici-1000783/#rcmrclid=da9f2ef0e3351c3b
+DTEND:20251010T210000Z
+DTSTART:20251010T190000Z
+SUMMARY:🎬 Арт-лекторий: Тайная жизнь Уффици
+UID:2f067927-8da7-4f56-bb03-d079d42a5c17@2f06.org
+URL:https://www.afisha.ru/movie/art-lektoriy-taynaya-zhizn-uffici-1000783/#rcmrclid=da9f2ef0e3351c3b
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Франкенштейн: Воскрешение\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: Великобритания\, 2024\, Триллер\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/4c/d9/abcdf96afab64874bc2b15cad94c.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 05.11.2025\n📅 Дата события: 05.11.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/frankenshteyn-voskreshenie-1000106/#rcmrclid=3a0dc0fd55f68e12
+DTEND:20251105T220000Z
+DTSTART:20251105T200000Z
+SUMMARY:🎬 Франкенштейн: Воскрешение
+UID:bfce6b58-2365-47c6-a273-6ebff0411e24@bfce.org
+URL:https://www.afisha.ru/movie/frankenshteyn-voskreshenie-1000106/#rcmrclid=3a0dc0fd55f68e12
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Мир в огне\n==================================================\n⭐ Рейтинг: 6.3\n🔞 Возраст: 18+\n📋 Информация: 2025\, Фантастика\n🌍 Страна: США\, 2025\, 2024\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/84/bd/6237412b63be4df493c5c235bd84.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 21:35\, 22:50\, 22:55\, 23:00\, 23:05\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 21:35\n\n🔗 Подробности: https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=3bce723ee0e8d8f4
+DTEND:20251008T233500Z
+DTSTART:20251008T213500Z
+SUMMARY:🎬 Мир в огне
+UID:ee598d3d-81d6-44c3-a32a-53c31cfea48a@ee59.org
+URL:https://www.afisha.ru/movie/mir-v-ogne-206394/#rcmrclid=3bce723ee0e8d8f4
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Хэллоуин. Ночной кошмар\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2025\, 2017\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/ea/15/e6cd0d48c610449694d37e2115ea.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:42\n📅 Ближайший показ: 29.10.2025\n📅 Дата события: 29.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/hellouin-nochnoy-koshmar-1001080/#rcmrclid=7b0e781865432e42
+DTEND:20251029T220000Z
+DTSTART:20251029T200000Z
+SUMMARY:🎬 Хэллоуин. Ночной кошмар
+UID:3e58b4c5-acaa-4334-9784-a4c912f7f881@3e58.org
+URL:https://www.afisha.ru/movie/hellouin-nochnoy-koshmar-1001080/#rcmrclid=7b0e781865432e42
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 TheatreHD: Оперный фестиваль Россини. Отелло\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Опера\n🌍 Страна: Италия\, 2022\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/62/a8/5c860dcae165404792633b48a862.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 15:00\, 7:32\n📅 Ближайший показ: 12.10.2025\n📅 Дата события: 12.10.2025 15:00\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-operniy-festival-rossini-otello-1001448/#rcmrclid=12ee1d737de164b2
+DTEND:20251012T170000Z
+DTSTART:20251012T150000Z
+SUMMARY:🎬 TheatreHD: Оперный фестиваль Россини. Отелло
+UID:3641ea3a-6b52-4c5e-9434-f7edc2ca8b60@3641.org
+URL:https://www.afisha.ru/movie/theatrehd-operniy-festival-rossini-otello-1001448/#rcmrclid=12ee1d737de164b2
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Те еще каникулы\, или Отпуск на все сто\n==================================================\n⭐ Рейтинг: 6.6\n🔞 Возраст: 12+\n📋 Информация: 2025\, Комедия\n🌍 Страна: 8 отзывов\, Испания\, 2023\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/74/ea/117f589815c04c9593c8af79ea74.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 21:50\, 8:22\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 21:50\n\n🔗 Подробности: https://www.afisha.ru/movie/te-eshche-kanikuly-ili-otpusk-na-vse-sto-308329/#rcmrclid=593661181935940d
+DTEND:20251008T235000Z
+DTSTART:20251008T215000Z
+SUMMARY:🎬 Те еще каникулы\, или Отпуск на все сто
+UID:18714a7e-9212-43db-b6c2-d5ff8bd74e79@1871.org
+URL:https://www.afisha.ru/movie/te-eshche-kanikuly-ili-otpusk-na-vse-sto-308329/#rcmrclid=593661181935940d
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Дракула\n==================================================\n⭐ Рейтинг: 6.6\n🔞 Возраст: 18+\n📋 Информация: 2025\, Фэнтези\n🌍 Страна: Великобритания\, Франция\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/5f/e1/0251b96a05df49359bf8e090e15f.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:42\, 21:00\, 21:20\, 22:10\, 22:30\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:42\n\n🔗 Подробности: https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=720f735f8238b05b
+DTEND:20251008T214200Z
+DTSTART:20251008T194200Z
+SUMMARY:🎬 Дракула
+UID:71cd5b6e-75de-4f5c-a5e5-15e065fe455e@71cd.org
+URL:https://www.afisha.ru/movie/drakula-1000812/#rcmrclid=720f735f8238b05b
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Сират\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Драма\n🌍 Страна: Франция\, Испания\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/44/20/7e6ee81566f4420c8cd741562044.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 18:00\n📅 Ближайший показ: 25.10.2025\n📅 Дата события: 25.10.2025 18:00\n\n🔗 Подробности: https://www.afisha.ru/movie/sirat-1000827/#rcmrclid=9abce86f84ff34a6
+DTEND:20251025T200000Z
+DTSTART:20251025T180000Z
+SUMMARY:🎬 Сират
+UID:d893df41-bee8-47a2-81bf-4d2d5f35e738@d893.org
+URL:https://www.afisha.ru/movie/sirat-1000827/#rcmrclid=9abce86f84ff34a6
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Globe: Укрощение строптивой\n==================================================\n⭐ Рейтинг: 6.7\n🔞 Возраст: 16+\n📋 Информация: Фильм-спектакль\n🌍 Страна: Великобритания\, 2012\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/74/2b/3a0ee50b555b44b1b8a584e02b74.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\, 9:42\n📅 Ближайший показ: 20.10.2025\n📅 Дата события: 20.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/globe-ukroshchenie-stroptivoy-219088/#rcmrclid=5ffd36241aac63fe
+DTEND:20251020T213000Z
+DTSTART:20251020T193000Z
+SUMMARY:🎬 Globe: Укрощение строптивой
+UID:cf8e8ed3-0dfc-4bfd-8771-ea2c317ec74b@cf8e.org
+URL:https://www.afisha.ru/movie/globe-ukroshchenie-stroptivoy-219088/#rcmrclid=5ffd36241aac63fe
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Неизвестный Джон Леннон\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Документальный\n🌍 Страна: Великобритания\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/43/d2/d08733cfa936416293ba68a1d243.png\n\n🎭 Расписание:\n⏰ Сеансы: 17:00\, 17:40\, 19:00\, 19:20\, 19:42\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 17:00\n\n🔗 Подробности: https://www.afisha.ru/movie/neizvestniy-dzhon-lennon-1000104/#rcmrclid=b4cdc0e22ca3fb0b
+DTEND:20251009T190000Z
+DTSTART:20251009T170000Z
+SUMMARY:🎬 Неизвестный Джон Леннон
+UID:9180469a-a0af-4a39-9b87-6ce896d01792@9180.org
+URL:https://www.afisha.ru/movie/neizvestniy-dzhon-lennon-1000104/#rcmrclid=b4cdc0e22ca3fb0b
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Песочный человек\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: США\, 2025\, 2021\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/3f/b3/b6992e393c6644b587cd1ebcb33f.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 21.10.2025\n📅 Дата события: 21.10.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/pesochniy-chelovek-1000105/#rcmrclid=87bd2f8f030f1dee
+DTEND:20251021T220000Z
+DTSTART:20251021T200000Z
+SUMMARY:🎬 Песочный человек
+UID:db63a31b-1618-4590-9d3c-bb096f8a1950@db63.org
+URL:https://www.afisha.ru/movie/pesochniy-chelovek-1000105/#rcmrclid=87bd2f8f030f1dee
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Арена ди Верона: Кармен\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2023\, Опера\n🌍 Страна: Италия\, 2022\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/53/bb/dab44dab86aa48d29a55a278bb53.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\n📅 Ближайший показ: 11.11.2025\n📅 Дата события: 11.11.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/arena-di-verona-karmen-295267/#rcmrclid=f68b2582c943b342
+DTEND:20251111T213000Z
+DTSTART:20251111T193000Z
+SUMMARY:🎬 Арена ди Верона: Кармен
+UID:6cde471a-0342-4b94-aba2-91e7eda75a7a@6cde.org
+URL:https://www.afisha.ru/movie/arena-di-verona-karmen-295267/#rcmrclid=f68b2582c943b342
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Кролик Момо: Большая погоня\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Турция\, 2025\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/13/34/856a392ba01b486ead677b7b3413.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 13:20\, 13:35\, 13:45\, 15:50\, 15:55\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 13:20\n\n🔗 Подробности: https://www.afisha.ru/movie/krolik-momo-bolshaya-pogonya-1001785/#rcmrclid=abc408766a63fdc3
+DTEND:20251009T152000Z
+DTSTART:20251009T132000Z
+SUMMARY:🎬 Кролик Момо: Большая погоня
+UID:61fec1a7-3905-4094-ab6b-3e3a3c8e9851@61fe.org
+URL:https://www.afisha.ru/movie/krolik-momo-bolshaya-pogonya-1001785/#rcmrclid=abc408766a63fdc3
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Ночь\n==================================================\n⭐ Рейтинг: 7.9\n🔞 Возраст: 16+\n📋 Информация: 2025\, Драма\n🌍 Страна: Франция\, Италия\, 1961\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/31/cc/451deacaa6c74872ae06b1a0cc31.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 13:45\, 16:55\, 17:05\, 18:40\, 19:42\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 13:45\n\n🔗 Подробности: https://www.afisha.ru/movie/noch-172736/#rcmrclid=0da983a9549861dd
+DTEND:20251009T154500Z
+DTSTART:20251009T134500Z
+SUMMARY:🎬 Ночь
+UID:6aba8d4e-ad05-447e-ae4b-42f8d4881a09@6aba.org
+URL:https://www.afisha.ru/movie/noch-172736/#rcmrclid=0da983a9549861dd
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 TheatreHD: Эгон Шиле. Автопортрет\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Балет\n🌍 Страна: Чехия\, 2024\n\n🖼️ Постер: https://s2.afisha.ru/mediastorage/9c/4b/586c13ee20064b92871e474d4b9c.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 19:10\, 19:20\, 19:30\, 19:50\, 8:22\n📅 Ближайший показ: 15.10.2025\n📅 Дата события: 15.10.2025 19:10\n\n🔗 Подробности: https://www.afisha.ru/movie/theatrehd-egon-shile-avtoportret-1001772/#rcmrclid=84c03fb1ab4006d3
+DTEND:20251015T211000Z
+DTSTART:20251015T191000Z
+SUMMARY:🎬 TheatreHD: Эгон Шиле. Автопортрет
+UID:f42d8957-8a4a-4c83-bbcc-24c2d7bae6d5@f42d.org
+URL:https://www.afisha.ru/movie/theatrehd-egon-shile-avtoportret-1001772/#rcmrclid=84c03fb1ab4006d3
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Двойная жизнь Вероники\n==================================================\n⭐ Рейтинг: 7.2\n🔞 Возраст: 18+\n📋 Информация: 1991\, Фэнтези\n🌍 Страна: 5 отзывов\, Франция\, Польша\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/20/1f/2f2db7a95e08445c9839bf741f20.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 7:11\, 7:25\, 7:31\n📅 Дата события: 09.10.2025 07:11\n\n🔗 Подробности: https://www.afisha.ru/movie/dvoynaya-zhizn-veroniki-170180/#rcmrclid=227e66896275b0e8
+DTEND:20251009T091100Z
+DTSTART:20251009T071100Z
+SUMMARY:🎬 Двойная жизнь Вероники
+UID:f3af7b5b-00c5-41af-a620-b8738f364580@f3af.org
+URL:https://www.afisha.ru/movie/dvoynaya-zhizn-veroniki-170180/#rcmrclid=227e66896275b0e8
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Тафити. Приключения на краю света\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Германия\, 2025\, 2013\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/b4/01/b103e25104fc4dfb92d3a52301b4.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 10:15\, 10:50\, 12:30\, 13:10\, 13:20\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 10:15\n\n🔗 Подробности: https://www.afisha.ru/movie/tafiti-priklyucheniya-na-krayu-sveta-1000678/#rcmrclid=10e9bdf3a8b69fbc
+DTEND:20251009T121500Z
+DTSTART:20251009T101500Z
+SUMMARY:🎬 Тафити. Приключения на краю света
+UID:32d2fac1-d013-4f2c-ae53-f2d920bc4e22@32d2.org
+URL:https://www.afisha.ru/movie/tafiti-priklyucheniya-na-krayu-sveta-1000678/#rcmrclid=10e9bdf3a8b69fbc
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Изумительная Мокси\n==================================================\n🔞 Возраст: 6+\n📋 Информация: 2025\, Мультфильм\n🌍 Страна: Нидерланды\, Бельгия\, 2025\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/d0/25/2e65a131d4ec46a1bfecb3d625d0.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 10:20\, 10:40\, 11:55\, 12:35\, 14:00\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 10:20\n\n🔗 Подробности: https://www.afisha.ru/movie/izumitelnaya-moksi-1001083/#rcmrclid=3a4592c7e7b6da80
+DTEND:20251009T122000Z
+DTSTART:20251009T102000Z
+SUMMARY:🎬 Изумительная Мокси
+UID:d87730f5-1986-4829-9599-b0cbab771949@d877.org
+URL:https://www.afisha.ru/movie/izumitelnaya-moksi-1001083/#rcmrclid=3a4592c7e7b6da80
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Г лазами пса\n==================================================\n🔞 Возраст: 16+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2025\n\n🖼️ Постер: https://s5.afisha.ru/mediastorage/eb/70/12963338fa7349cfa6c971b870eb.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\n📅 Ближайший показ: 14.10.2025\n📅 Дата события: 14.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/glazami-psa-1001734/#rcmrclid=c51fa287f87a45ed
+DTEND:20251014T213000Z
+DTSTART:20251014T193000Z
+SUMMARY:🎬 Г лазами пса
+UID:38340038-d616-476c-925a-ee455969f29e@3834.org
+URL:https://www.afisha.ru/movie/glazami-psa-1001734/#rcmrclid=c51fa287f87a45ed
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Иллюзия обмана-3\n==================================================\n🔞 Возраст: 12+\n📋 Информация: 2025\, Триллер\n🌍 Страна: США\, 2025\, 2009\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/9e/35/7cd6a426265e424f8e8df589359e.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 10:20\, 11:15\, 12:00\, 12:55\, 13:50\n📅 Ближайший показ: 13.11.2025\n📅 Дата события: 13.11.2025 10:20\n\n🔗 Подробности: https://www.afisha.ru/movie/illyuziya-obmana-3-308835/#rcmrclid=4f5694082fa94bc2
+DTEND:20251113T122000Z
+DTSTART:20251113T102000Z
+SUMMARY:🎬 Иллюзия обмана-3
+UID:e2afe3ee-8ad9-4c3c-8af4-644cba835c00@e2af.org
+URL:https://www.afisha.ru/movie/illyuziya-obmana-3-308835/#rcmrclid=4f5694082fa94bc2
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Опасные связи\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2024\, 2022\n\n🖼️ Постер: https://s.afisha.ru/mediastorage/3e/69/ca8aa003d6314e9a8540de56693e.png\n\n🎭 Расписание:\n⏰ Сеансы: 19:30\, 8:42\n📅 Ближайший показ: 14.10.2025\n📅 Дата события: 14.10.2025 19:30\n\n🔗 Подробности: https://www.afisha.ru/movie/opasnye-svyazi-1001085/#rcmrclid=96b9fc28a1f38791
+DTEND:20251014T213000Z
+DTSTART:20251014T193000Z
+SUMMARY:🎬 Опасные связи
+UID:405a7746-9c2f-484f-9cc5-077967422e4a@405a.org
+URL:https://www.afisha.ru/movie/opasnye-svyazi-1001085/#rcmrclid=96b9fc28a1f38791
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Человек-слон\n==================================================\n⭐ Рейтинг: 7.9\n🔞 Возраст: 18+\n📋 Информация: 2025\, Биография\n🌍 Страна: США\, Великобритания\, 1980\n\n🖼️ Постер: https://s1.afisha.ru/mediastorage/c2/8d/e9cfc34b5a334acaa083d1738dc2.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 20:30\, 6:21\, 6:31\, 7:11\, 7:41\n📅 Ближайший показ: 19.10.2025\n📅 Дата события: 19.10.2025 20:30\n\n🔗 Подробности: https://www.afisha.ru/movie/chelovek-slon-171393/#rcmrclid=737fedf571e9a99c
+DTEND:20251019T223000Z
+DTSTART:20251019T203000Z
+SUMMARY:🎬 Человек-слон
+UID:e475dc9a-6100-4fbb-ad42-22ae652b4443@e475.org
+URL:https://www.afisha.ru/movie/chelovek-slon-171393/#rcmrclid=737fedf571e9a99c
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Долгая прогулка\n==================================================\n⭐ Рейтинг: 6.9\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: США\, 2025\, 2023\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/27/c3/cc6964bd5b30459780714872c327.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 19:42\, 21:35\, 21:50\, 21:55\, 22:30\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 19:42\n\n🔗 Подробности: https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=52780a21890853a9
+DTEND:20251008T214200Z
+DTSTART:20251008T194200Z
+SUMMARY:🎬 Долгая прогулка
+UID:68064ffd-5fa6-4ba0-b639-9dd0df2cf52e@6806.org
+URL:https://www.afisha.ru/movie/dolgaya-progulka-1001088/#rcmrclid=52780a21890853a9
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Астрал: 13 инкарнаций зла\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: Южная Корея\, 2025\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/65/aa/ac03dd89f58548e4b7d3fa4eaa65.png\n\n🎭 Расписание:\n⏰ Сеансы: 20:00\, 7:52\n📅 Ближайший показ: 25.11.2025\n📅 Дата события: 25.11.2025 20:00\n\n🔗 Подробности: https://www.afisha.ru/movie/astral-13-inkarnaciy-zla-308517/#rcmrclid=99be19bde364d2f2
+DTEND:20251125T220000Z
+DTSTART:20251125T200000Z
+SUMMARY:🎬 Астрал: 13 инкарнаций зла
+UID:315ff78b-89c7-4b45-aba8-44667cbaa432@315f.org
+URL:https://www.afisha.ru/movie/astral-13-inkarnaciy-zla-308517/#rcmrclid=99be19bde364d2f2
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Ужастики. Ожившие рисунки\n==================================================\n🔞 Возраст: 12+\n📋 Информация: 2025\, Приключение\n🌍 Страна: США\, 2024\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/2e/0a/bf4161f53768431bb6edbc460a2e.jpg\n\n🎭 Расписание:\n⏰ Сеансы: 11:10\, 12:40\, 15:20\, 16:40\, 16:45\n📅 Ближайший показ: 09.10.2025\n📅 Дата события: 09.10.2025 11:10\n\n🔗 Подробности: https://www.afisha.ru/movie/uzhastiki-ozhivshie-risunki-1001302/#rcmrclid=7a1a0b647befad5c
+DTEND:20251009T131000Z
+DTSTART:20251009T111000Z
+SUMMARY:🎬 Ужастики. Ожившие рисунки
+UID:9923c865-588b-49cb-8487-d0687f809268@9923.org
+URL:https://www.afisha.ru/movie/uzhastiki-ozhivshie-risunki-1001302/#rcmrclid=7a1a0b647befad5c
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Заклятие. Последний ритуал\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Ужасы\n🌍 Страна: Таиланд\, 2025\n\n🖼️ Постер: https://s4.afisha.ru/mediastorage/36/04/a9b8f6cd928e48f1a17dc58f0436.jpg\n\n🎭 Расписание:\n📅 Дата события: 09.10.2025 19:00\n\n🔗 Подробности: https://www.afisha.ru/movie/zaklyatie-posledniy-ritual-1000918/#rcmrclid=b02136c7ca91c084
+DTEND:20251009T210000Z
+DTSTART:20251009T190000Z
+SUMMARY:🎬 Заклятие. Последний ритуал
+UID:80b6afb5-a5df-4fb2-a4de-5d38cdbe9be5@80b6.org
+URL:https://www.afisha.ru/movie/zaklyatie-posledniy-ritual-1000918/#rcmrclid=b02136c7ca91c084
+END:VEVENT
+BEGIN:VEVENT
+DESCRIPTION:🎬 Пила. Наследие\n==================================================\n🔞 Возраст: 18+\n📋 Информация: 2025\, Детектив\n🌍 Страна: США\, 2024\, 2015\n\n🖼️ Постер: https://s3.afisha.ru/mediastorage/b2/8a/b3ccb7f93db04590acce20ed8ab2.jpeg\n\n🎭 Расписание:\n⏰ Сеансы: 22:40\, 23:05\, 23:30\, 23:45\, 7:32\n📅 Ближайший показ: 08.10.2025\n📅 Дата события: 08.10.2025 22:40\n\n🔗 Подробности: https://www.afisha.ru/movie/pila-nasledie-1001061/#rcmrclid=3d7d871409d9bf64
+DTEND:20251009T004000Z
+DTSTART:20251008T224000Z
+SUMMARY:🎬 Пила. Наследие
+UID:c8c202ca-af35-45ea-b296-c67a88dc24dd@c8c2.org
+URL:https://www.afisha.ru/movie/pila-nasledie-1001061/#rcmrclid=3d7d871409d9bf64
 END:VEVENT
 END:VCALENDAR
