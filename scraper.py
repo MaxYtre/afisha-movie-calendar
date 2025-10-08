@@ -1,892 +1,348 @@
 #!/usr/bin/env python3
-# coding: utf-8
+# -*- coding: utf-8 -*-
+"""
+Парсер афиши кинотеатров Перми с afisha.ru
+Создаёт календарь .ics с all-day событиями для всех фильмов (кроме российских)
+С полной пагинацией, деталями (баннер, описание, рейтинг) и без уведомлений
+"""
+
+import argparse
+import logging
+import os
+import random
+import re
+import time
+from datetime import datetime, timedelta
+from typing import List, Dict, Optional, Any
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
-from ics import Calendar, Event
-from datetime import datetime, timedelta, date
-import re
-import json
-import os
-import time
-import random
-from urllib.parse import urljoin, quote, urlparse, parse_qs
-import argparse
-import logging
+from icalendar import Calendar, Event
 
 # Настройка логирования
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('scraper.log'),
+        logging.FileHandler('scraper.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-# ОПТИМИЗИРОВАННЫЕ параметры БЕЗ лимитов по умолчанию
-MAX_RETRIES = 3              
-BACKOFF_FACTOR = 3           
-BASE_DELAY = 5               
-RANDOM_DELAY = 3             
-PAGE_DELAY = 8               
-DETAIL_DELAY = 12            
+# Константы
+BASE_URL = 'https://www.afisha.ru/prm/schedule_cinema/'
+SCHEDULE_URL = BASE_URL  # Страница 1
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+HEADERS = {
+    'User-Agent': USER_AGENT,
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'ru-RU,ru;q=0.9,en;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Cache-Control': 'max-age=0',
+    'Upgrade-Insecure-Requests': '1'
+}
 
-# Страны, фильмы которых НЕ включать в календарь
-EXCLUDE_COUNTRIES = ['Россия']
+# Задержки для избежания HTTP 429
+DELAYS = {
+    'default': 5,    # Обычные запросы
+    'page': 8,       # Страницы списков
+    'detail': 12,    # Детальные страницы фильмов
+    'retry': 10      # Повторные попытки
+}
 
-# Аргументы командной строки - ВОССТАНОВЛЕНЫ для совместимости
-parser = argparse.ArgumentParser(description='Безлимитный парсер афиши с расписанием сеансов')
-parser.add_argument(
-    '--exclude-country',
-    action='append',
-    default=[],
-    help='Страна, которую не включать в календарь (можно указать несколько)'
-)
-parser.add_argument(
-    '--max-movies',
-    type=int,
-    default=None,
-    help='Максимальное число фильмов для обработки (по умолчанию - БЕЗ ЛИМИТА, обрабатываются ВСЕ)'
-)
-parser.add_argument(
-    '--max-pages',
-    type=int,
-    default=None,
-    help='Максимальное число страниц для парсинга (по умолчанию - БЕЗ ЛИМИТА, парсятся ВСЕ)'
-)
-parser.add_argument(
-    '--delay',
-    type=int,
-    default=5,
-    help='Базовая задержка между запросами в секундах'
-)
-parser.add_argument(
-    '--skip-details',
-    action='store_true',
-    help='Пропустить получение детальной информации о фильмах (быстрее, но без стран)'
-)
-args = parser.parse_args()
+def smart_delay(delay_type: str = 'default', multiplier: int = 1):
+    """Умная задержка с случайной вариацией"""
+    base_delay = DELAYS.get(delay_type, DELAYS['default'])
+    delay = base_delay * multiplier + random.uniform(0, 3)
+    time.sleep(delay)
+    logger.debug(f"Задержка {delay_type}: {delay:.2f} сек")
 
-# Используем аргументы, если они переданы
-if args.exclude_country:
-    EXCLUDE_COUNTRIES = args.exclude_country
-
-# ВАЖНО: Лимиты используются ТОЛЬКО если явно заданы
-MAX_MOVIES = args.max_movies  # None по умолчанию
-MAX_PAGES = args.max_pages    # None по умолчанию
-
-if args.delay:
-    BASE_DELAY = args.delay
-SKIP_DETAILS = args.skip_details
-
-# Логирование настроек
-if MAX_MOVIES:
-    logger.info(f"Установлен лимит фильмов: {MAX_MOVIES}")
-else:
-    logger.info("❌ Лимит фильмов ОТКЛЮЧЕН - обрабатываются ВСЕ найденные")
-
-if MAX_PAGES:
-    logger.info(f"Установлен лимит страниц: {MAX_PAGES}")
-else:
-    logger.info("❌ Лимит страниц ОТКЛЮЧЕН - парсятся ВСЕ существующие")
-
-def smart_delay(request_type='default'):
-    """
-    Умная задержка с разными параметрами для разных типов запросов
-    """
-    delays = {
-        'default': BASE_DELAY,
-        'detail': DETAIL_DELAY,
-        'page': PAGE_DELAY,
-        'retry': BASE_DELAY * 2
-    }
-    
-    base_delay = delays.get(request_type, BASE_DELAY)
-    actual_delay = base_delay + random.uniform(1, RANDOM_DELAY)
-    
-    time.sleep(actual_delay)
-    logger.debug(f"Задержка {request_type}: {actual_delay:.2f} сек")
-
-def get_soup(url, retries=MAX_RETRIES, request_type='default'):
-    """
-    Получить объект BeautifulSoup по URL с улучшенной обработкой HTTP 429
-    """
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Sec-Fetch-User': '?1',
-        'Cache-Control': 'max-age=0'
-    }
-    
-    session = requests.Session()
-    session.headers.update(headers)
-    
-    delay = BASE_DELAY
-    for attempt in range(1, retries + 1):
-        try:
-            logger.debug(f"Запрос {attempt}/{retries} для {url[:60]}...")
-            
-            if attempt > 1:
-                smart_delay('retry')
-            
-            resp = session.get(url, timeout=45)
-            
-            if resp.status_code == 429:
-                wait_time = delay * BACKOFF_FACTOR
-                logger.warning(f"HTTP 429 для {url[:60]}... Ожидание {wait_time} сек (попытка {attempt})")
-                time.sleep(wait_time)
-                delay *= BACKOFF_FACTOR
-                continue
-            elif resp.status_code == 404:
-                logger.warning(f"Страница не найдена: {url[:60]}...")
-                return None
-            elif resp.status_code == 403:
-                logger.warning(f"Доступ запрещен (403): {url[:60]}...")
-                time.sleep(delay * 2)
-                delay *= 2
-                continue
-            
-            resp.raise_for_status()
-            logger.debug(f"Успешный ответ для {url[:60]}... (статус: {resp.status_code})")
-            
-            smart_delay(request_type)
-            
-            return BeautifulSoup(resp.text, 'html.parser')
-            
-        except requests.exceptions.Timeout:
-            logger.warning(f"Таймаут для {url[:60]}... (попытка {attempt})")
-            if attempt < retries:
-                time.sleep(delay)
-                delay *= BACKOFF_FACTOR
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Ошибка запроса для {url[:60]}... (попытка {attempt}): {e}")
-            if attempt < retries:
-                time.sleep(delay)
-                delay *= BACKOFF_FACTOR
-            else:
-                logger.error(f"Все попытки исчерпаны для {url[:60]}...")
-                return None
-    
-    return None
-
-def parse_schedule_calendar(soup):
-    """
-    Парсить календарь расписания сеансов и найти ближайшую доступную дату
-    """
-    available_dates = []
-    
-    # Поиск календарного виджета
-    calendar_selectors = [
-        '.EyErB',  # основной класс календаря из примера
-        '[aria-label="Календарь"]',
-        '.calendar',
-        '.schedule-calendar'
-    ]
-    
-    calendar_widget = None
-    for selector in calendar_selectors:
-        calendar_widget = soup.select_one(selector)
-        if calendar_widget:
-            logger.debug(f"Найден календарь с селектором: {selector}")
-            break
-    
-    if not calendar_widget:
-        logger.debug("Календарь сеансов не найден")
+def make_request(session: requests.Session, url: str, delay_type: str = 'default') -> Optional[requests.Response]:
+    """Выполняет HTTP-запрос с обработкой ошибок и retry"""
+    smart_delay(delay_type)
+    try:
+        response = session.get(url, headers=HEADERS, timeout=30)
+        if response.status_code == 429:
+            logger.warning(f"HTTP 429 для {url}. Увеличиваем задержку.")
+            time.sleep(60)  # Длинная пауза при rate limit
+            return make_request(session, url, 'retry')
+        response.raise_for_status()
+        return response
+    except requests.RequestException as e:
+        logger.error(f"Ошибка запроса {url}: {e}")
         return None
-    
-    # Поиск активных дат (ссылки, не кнопки disabled)
-    date_links = calendar_widget.find_all('a', class_='pdT6c')
-    
-    for link in date_links:
-        try:
-            aria_label = link.get('aria-label', '')
-            day_elem = link.select_one('.YCVqY')
-            if day_elem:
-                day_number = day_elem.get_text(strip=True)
-                
-                # Определяем месяц и год из aria-label
-                if 'октября' in aria_label:
-                    month = 10
-                    year = 2025
-                elif 'ноября' in aria_label:
-                    month = 11
-                    year = 2025
-                elif 'декабря' in aria_label:
-                    month = 12
-                    year = 2025
-                else:
-                    now = datetime.now()
-                    month = now.month
-                    year = now.year
-                
-                try:
-                    show_date = date(year, month, int(day_number))
-                    available_dates.append(show_date)
-                    logger.debug(f"Найдена доступная дата: {show_date}")
-                except ValueError as e:
-                    logger.debug(f"Ошибка парсинга даты {day_number}.{month}.{year}: {e}")
-                    continue
-                    
-        except Exception as e:
-            logger.debug(f"Ошибка при обработке элемента даты: {e}")
-            continue
-    
-    if available_dates:
-        available_dates.sort()
-        nearest_date = available_dates[0]
-        logger.debug(f"Ближайшая доступная дата: {nearest_date}")
-        return nearest_date
-    
-    logger.debug("Не найдено доступных дат в календаре")
-    return None
 
-def parse_showtimes_from_page(soup):
-    """
-    Парсить время сеансов со страницы расписания фильма
-    """
-    showtimes = []
-    
-    time_selectors = [
-        '.showtime',
-        '.session-time', 
-        '.time',
-        '[data-time]',
-        '.screening-time'
-    ]
-    
-    for selector in time_selectors:
-        time_elements = soup.select(selector)
-        for elem in time_elements:
-            time_text = elem.get_text(strip=True)
-            time_match = re.search(r'(\d{1,2}[:.]\d{2})', time_text)
-            if time_match:
-                time_str = time_match.group(1).replace('.', ':')
-                try:
-                    parsed_time = datetime.strptime(time_str, '%H:%M')
-                    if time_str not in showtimes:
-                        showtimes.append(time_str)
-                except ValueError:
-                    continue
-    
-    if not showtimes:
-        page_text = soup.get_text()
-        time_patterns = [
-            r'(\d{1,2}:\d{2})',
-            r'(\d{1,2}\.\d{2})',
-            r'(\d{1,2}[:.]\d{2})'
-        ]
-        
-        for pattern in time_patterns:
-            matches = re.findall(pattern, page_text)
-            for match in matches:
-                time_str = match.replace('.', ':')
-                try:
-                    parsed_time = datetime.strptime(time_str, '%H:%M')
-                    hour = parsed_time.hour
-                    if 6 <= hour <= 23:
-                        if time_str not in showtimes:
-                            showtimes.append(time_str)
-                except ValueError:
-                    continue
-    
-    return showtimes
+def parse_date_from_timestamp(timestamp: str) -> Optional[datetime]:
+    """Парсит timestamp в datetime (миллисекунды)"""
+    try:
+        dt = datetime.fromtimestamp(int(timestamp) / 1000)
+        return dt
+    except ValueError:
+        return None
 
-def parse_movie_banner(soup):
-    """
-    Найти баннер/постер фильма
-    """
-    banner_selectors = [
-        'img[src*="mediastorage"]',  # Основной селектор для баннеров afisha.ru
-        '.poster img',
-        '.movie-poster img',
-        '.film-poster img',
-        'img[alt*="постер"]',
-        'img[alt*="poster"]',
-        '.main-image img',
-        '.hero-image img',
-        'img[data-src*="mediastorage"]'
-    ]
-    
-    for selector in banner_selectors:
-        banner_elem = soup.select_one(selector)
-        if banner_elem:
-            # Получаем src или data-src
-            banner_url = banner_elem.get('src') or banner_elem.get('data-src')
-            if banner_url:
-                # Делаем полный URL если нужно
-                if banner_url.startswith('//'):
-                    banner_url = 'https:' + banner_url
-                elif banner_url.startswith('/'):
-                    banner_url = 'https://www.afisha.ru' + banner_url
-                
-                logger.debug(f"Найден баннер: {banner_url}")
-                return banner_url
-    
-    logger.debug("Баннер не найден")
-    return None
+def parse_schedule_calendar(soup: BeautifulSoup) -> Optional[datetime]:
+    """Парсит календарь виджета для ближайшей даты сеанса"""
+    calendar_div = soup.find('div', {'aria-label': 'Календарь'})
+    if not calendar_div:
+        logger.warning("Календарь не найден")
+        return None
 
-def parse_movie_description(soup):
-    """
-    Найти описание фильма под заголовком "О фильме"
-    """
-    description_selectors = [
-        # Поиск заголовка "О фильме" и следующего за ним текста
-        'h2:contains("О фильме") + div',
-        'h3:contains("О фильме") + div',
-        'h2:contains("О фильме") + p',
-        'h3:contains("О фильме") + p',
-        '.about-movie',
-        '.movie-description',
-        '.film-description',
-        '.description',
-        '.synopsis',
-        '.plot',
-        '[data-test="ITEM-DESCRIPTION"]'
-    ]
-    
-    # Сначала ищем по заголовку "О фильме"
-    about_headers = soup.find_all(['h1', 'h2', 'h3', 'h4'], string=re.compile(r'О фильме', re.I))
-    for header in about_headers:
-        # Ищем следующий элемент с текстом
-        next_elem = header.find_next_sibling(['div', 'p', 'section'])
-        if next_elem:
-            description = next_elem.get_text(strip=True)
-            if description and len(description) > 20:
-                logger.debug(f"Найдено описание через заголовок: {description[:100]}...")
-                return description
-    
-    # Альтернативный поиск по селекторам
-    for selector in description_selectors:
-        if ':contains(' in selector:
-            # Пропускаем CSS-селекторы с :contains, так как BeautifulSoup их не поддерживает
-            continue
-            
-        desc_elem = soup.select_one(selector)
+    # Ищем активные даты (кликабельные <a>)
+    active_days = calendar_div.find_all('a', class_=re.compile(r'pdT6c'))
+    if not active_days:
+        logger.warning("Активные даты не найдены")
+        return None
+
+    # Ближайшая дата - первая активная
+    first_day = active_days[0]
+    aria_label = first_day.get('aria-label', '')
+    # Парсим из aria-label, напр. "8 октября"
+    date_match = re.search(r'(\d+)\s+([а-я]+)', aria_label.lower())
+    if date_match:
+        day = int(date_match.group(1))
+        month_name = date_match.group(2)
+        month_map = {
+            'октября': 10, 'ноября': 11, 'декабря': 12,
+            'января': 1, 'февраля': 2, 'марта': 3, 'апреля': 4, 'мая': 5,
+            'июня': 6, 'июля': 7, 'августа': 8, 'сентября': 9
+        }
+        if month_name in month_map:
+            # Предполагаем текущий год
+            current_year = datetime.now().year
+            try:
+                dt = datetime(current_year, month_map[month_name], day)
+                logger.info(f"Ближайшая дата сеанса: {dt.strftime('%d.%m.%Y')}")
+                return dt.date()
+            except ValueError:
+                pass
+
+    # Fallback: завтра
+    tomorrow = (datetime.now() + timedelta(days=1)).date()
+    logger.info(f"Fallback дата: завтра {tomorrow}")
+    return tomorrow
+
+def extract_movie_detail(session: requests.Session, movie_url: str) -> Dict[str, Any]:
+    """Извлекает детали фильма: баннер, описание, возраст, расписание"""
+    response = make_request(session, movie_url, 'detail')
+    if not response:
+        return {}
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    details = {}
+
+    # Баннер (img src)
+    banner_img = soup.find('img', class_=re.compile(r'(poster|banner|hero-image)')) or soup.find('img', alt=re.compile(r'.*фильм.*', re.I))
+    if banner_img:
+        banner_url = urljoin(BASE_URL, banner_img.get('src', ''))
+        if banner_url:
+            details['banner'] = banner_url
+            logger.debug(f"Баннер: {banner_url}")
+
+    # Возраст (12+, 16+ и т.д.)
+    age_elem = soup.find('span', class_=re.compile(r'age|rating')) or soup.find(string=re.compile(r'\d+\+'))
+    if age_elem:
+        age_text = re.search(r'(\d+)\+', str(age_elem))
+        if age_text:
+            details['age'] = age_text.group(1) + '+'
+            logger.debug(f"Возраст: {details['age']}")
+
+    # Описание под "О фильме"
+    desc_section = soup.find('h2', string=re.compile(r'о фильме', re.I))
+    if desc_section:
+        desc_elem = desc_section.find_next_sibling('div', class_=re.compile(r'description|about'))
         if desc_elem:
-            description = desc_elem.get_text(strip=True)
-            if description and len(description) > 20:
-                logger.debug(f"Найдено описание через селектор {selector}: {description[:100]}...")
-                return description
-    
-    logger.debug("Описание фильма не найдено")
-    return None
+            description = desc_elem.get_text(strip=True)[:300]  # Обрезаем до 300 символов
+            if len(description) > 200:
+                description += '...'
+            details['description'] = description
+            logger.debug(f"Описание: {description[:50]}...")
 
-def parse_age_rating(soup):
-    """
-    Найти возрастной рейтинг фильма (например: 12+, 16+, 18+)
-    """
-    # Паттерны для поиска возрастного рейтинга
-    age_patterns = [
-        r'(\d+\+)',  # 12+, 16+, 18+
-        r'(\d+ лет\+)',  # 12 лет+
-        r'(без ограничений)',
-        r'(0\+)',
-        r'(6\+)',
-        r'(12\+)',
-        r'(16\+)',
-        r'(18\+)'
-    ]
-    
-    # Селекторы для поиска возрастного рейтинга
-    age_selectors = [
-        '.age-rating',
-        '.rating',
-        '.age',
-        '[data-test="AGE-RATING"]',
-        '.movie-rating',
-        '.film-rating',
-        '.restriction',
-        '.mpaa'
-    ]
-    
-    # Поиск по селекторам
-    for selector in age_selectors:
-        age_elem = soup.select_one(selector)
-        if age_elem:
-            age_text = age_elem.get_text(strip=True)
-            for pattern in age_patterns:
-                match = re.search(pattern, age_text, re.I)
-                if match:
-                    rating = match.group(1)
-                    logger.debug(f"Найден возрастной рейтинг через селектор: {rating}")
-                    return rating
-    
-    # Поиск по всему тексту страницы
-    page_text = soup.get_text()
-    for pattern in age_patterns:
-        matches = re.findall(pattern, page_text, re.I)
-        for match in matches:
-            # Проверяем, что это действительно возрастной рейтинг
-            if any(age in match for age in ['0+', '6+', '12+', '16+', '18+', 'без ограничений']):
-                logger.debug(f"Найден возрастной рейтинг в тексте: {match}")
-                return match
-    
-    logger.debug("Возрастной рейтинг не найден")
-    return None
+    # Расписание (ближайшая дата)
+    schedule_date = parse_schedule_calendar(soup)
+    if schedule_date:
+        details['date'] = schedule_date
 
-def extract_movie_data_from_schedule(soup):
-    """
-    Извлечь ВСЕ данные о фильмах из расписания кинотеатров
-    """
-    movies_data = []
-    
-    movie_selectors = [
-        '.movie-item',
-        '.film-item', 
-        '.schedule-item',
-        '[data-movie]',
-        '.movie',
-        '.film',
-        'article',
-        '.content-item',
-        '.list-item',
-        '.cinema-movie',
-        '.schedule-movie',
-        '.event-item',
-        '.item'
-    ]
-    
-    movie_elements = []
-    for selector in movie_selectors:
-        elements = soup.select(selector)
-        if elements:
-            movie_elements = elements
-            logger.debug(f"Найдены элементы с селектором: {selector} ({len(elements)} шт.)")
-            break
-    
-    if not movie_elements:
-        # Поиск по ссылкам - обрабатываем найденные ссылки
-        links = soup.find_all('a', href=True)
-        movie_links = [link for link in links if 'movie' in link['href'] or 'film' in link['href']]
-        
-        logger.debug(f"Найдено {len(movie_links)} ссылок на фильмы")
-        
-        for idx, link in enumerate(movie_links, 1):
-            title = link.get_text(strip=True)
-            if title and len(title) > 3:
-                movie_data = {
+    return details
+
+def extract_movie_from_list(soup: BeautifulSoup) -> List[Dict[str, Any]]:
+    """Извлекает фильмы со страницы списка (название, URL, базовая дата/время)"""
+    movies = []
+    # Селекторы для фильмов на странице расписания (адаптированы под возможную структуру)
+    movie_elements = soup.find_all('div', class_=re.compile(r'movie|film|item|card'))
+    for elem in movie_elements:
+        title_elem = elem.find('a', class_=re.compile(r'title|name|h3')) or elem.find('h3')
+        if title_elem:
+            title = title_elem.get_text(strip=True)
+            url = urljoin(BASE_URL, title_elem.get('href', ''))
+            if title and url:
+                movie = {
                     'title': title,
-                    'url': urljoin('https://www.afisha.ru', link['href']),
-                    'times': [],
-                    'countries': [],
-                    'nearest_show_date': None,
-                    'banner_url': None,
-                    'description': None,
-                    'age_rating': None
+                    'url': url,
+                    'date': None,  # Будет обновлено из деталей
+                    'time': None   # Не используется для all-day
                 }
-                movies_data.append(movie_data)
-        
-        logger.debug(f"Добавлено {len(movies_data)} фильмов через ссылки")
-        return movies_data
-    
-    # Обработка найденных элементов фильмов
-    logger.debug(f"Обрабатываем {len(movie_elements)} найденных элементов фильмов")
-    
-    for idx, element in enumerate(movie_elements, 1):
-        try:
-            # Поиск названия фильма
-            title_selectors = ['h1', 'h2', 'h3', '.title', '.name', 'a', 'strong']
-            title = None
-            
-            for sel in title_selectors:
-                title_elem = element.select_one(sel)
-                if title_elem:
-                    title = title_elem.get_text(strip=True)
-                    if title and len(title) > 3:
-                        break
-            
-            if not title:
-                continue
-            
-            # Поиск времени сеансов в элементе
-            times = []
-            time_patterns = [
-                r'(\d{1,2}[:.]\d{2})',
-                r'(\d{1,2}:\d{2})',
-                r'(\d{1,2}\.\d{2})'
-            ]
-            
-            element_text = element.get_text()
-            for pattern in time_patterns:
-                matches = re.findall(pattern, element_text)
-                for match in matches:
-                    try:
-                        time_str = match.replace('.', ':')
-                        parsed_time = datetime.strptime(time_str, '%H:%M')
-                        if time_str not in times:
-                            times.append(time_str)
-                    except ValueError:
-                        continue
-            
-            # Поиск ссылки на фильм
-            movie_url = None
-            link_elem = element.find('a', href=True)
-            if link_elem:
-                movie_url = urljoin('https://www.afisha.ru', link_elem['href'])
-            
-            movie_data = {
-                'title': title,
-                'url': movie_url,
-                'times': times,
-                'countries': [],
-                'nearest_show_date': None,
-                'banner_url': None,
-                'description': None,
-                'age_rating': None
-            }
-            
-            movies_data.append(movie_data)
-            logger.debug(f"Добавлен фильм {idx}: {title} ({len(times)} сеансов)")
-            
-        except Exception as e:
-            logger.error(f"Ошибка при обработке элемента фильма {idx}: {e}")
-            continue
-    
-    logger.debug(f"Извлечено {len(movies_data)} фильмов из текущей страницы")
-    return movies_data
+                movies.append(movie)
+                logger.debug(f"Найден фильм: {title}")
 
-def parse_all_schedule_pages(base_url):
-    """
-    Парсить все страницы расписания с учетом лимитов
-    """
-    all_movies_data = []
+    logger.info(f"На странице найдено {len(movies)} фильмов")
+    return movies
+
+def parse_all_schedule_pages(session: requests.Session, max_pages: Optional[int] = None) -> List[Dict[str, Any]]:
+    """Парсит все страницы пагинации"""
+    all_movies = []
+    existing_titles = set()
     current_page = 1
-    
-    if MAX_PAGES:
-        logger.info(f"Парсинг с лимитом страниц: {MAX_PAGES}")
-    else:
-        logger.info(f"🔥 БЕЗЛИМИТНЫЙ парсинг всех существующих страниц")
-    
-    # Цикл с учетом лимита страниц
+    page_count = 0
+
     while True:
-        # Проверка лимита страниц
-        if MAX_PAGES and current_page > MAX_PAGES:
-            logger.info(f"🛑 Достигнут лимит страниц: {MAX_PAGES}")
+        if max_pages and page_count >= max_pages:
+            logger.info(f"Достигнут лимит страниц: {max_pages}")
             break
-            
-        if current_page == 1:
-            page_url = base_url
-        else:
-            page_url = f"{base_url}page{current_page}/"
-        
-        logger.info(f"📄 Парсинг страницы {current_page}: {page_url}")
-        
-        soup = get_soup(page_url, request_type='page')
-        
-        if not soup:
-            logger.info(f"❌ Страница {current_page} недоступна (404) - завершаем парсинг")
+
+        page_url = SCHEDULE_URL if current_page == 1 else f"{BASE_URL}page{current_page}/"
+        logger.info(f"Парсинг страницы {current_page}: {page_url}")
+
+        response = make_request(session, page_url, 'page')
+        if not response:
+            logger.warning(f"Страница {current_page} недоступна (404?) - завершаем")
             break
-        
-        page_movies = extract_movie_data_from_schedule(soup)
-        
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        page_movies = extract_movie_from_list(soup)
+
         if not page_movies:
-            logger.info(f"❌ На странице {current_page} не найдено фильмов - завершаем парсинг")
+            logger.info(f"Пустая страница {current_page} - завершаем")
             break
-        
-        logger.info(f"✅ На странице {current_page} найдено {len(page_movies)} фильмов")
-        
-        # Добавляем фильмы, избегая дубликатов
-        new_movies_count = 0
-        existing_titles = {movie['title'] for movie in all_movies_data}
-        
+
         for movie in page_movies:
             if movie['title'] not in existing_titles:
-                all_movies_data.append(movie)
                 existing_titles.add(movie['title'])
-                new_movies_count += 1
-                
-                # Проверка лимита фильмов
-                if MAX_MOVIES and len(all_movies_data) >= MAX_MOVIES:
-                    logger.info(f"🛑 Достигнут лимит фильмов: {MAX_MOVIES}")
-                    all_movies_data = all_movies_data[:MAX_MOVIES]
-                    return all_movies_data
-        
-        logger.info(f"➕ Добавлено {new_movies_count} новых фильмов (всего: {len(all_movies_data)})")
-        
+                all_movies.append(movie)
+                logger.debug(f"Добавлен новый фильм: {movie['title']}")
+
+        page_count += 1
         current_page += 1
-        smart_delay('page')
-    
-    logger.info(f"🎬 ИТОГО найдено {len(all_movies_data)} уникальных фильмов на {current_page - 1} страницах")
-    return all_movies_data
 
-def parse_movie_details_and_schedule(movie_url):
-    """
-    Получить РАСШИРЕННЫЕ данные о фильме: страны, баннер, описание, возраст, расписание
-    """
-    if not movie_url:
-        return [], None, [], None, None, None
-    
-    logger.debug(f"Получение расширенных деталей: {movie_url[:60]}...")
-    soup = get_soup(movie_url, request_type='detail')
-    
-    if not soup:
-        return [], None, [], None, None, None
-    
-    # Парсим страны
-    countries = []
-    country_selectors = [
-        '[data-test="ITEM-META"] a',
-        '.country',
-        '.film-country',
-        '.movie-country',
-        'span:contains("Страна")',
-        '.meta-info',
-        '.film-meta'
-    ]
-    
-    for selector in country_selectors:
-        country_elements = soup.select(selector)
-        for el in country_elements:
-            country_text = el.get_text(strip=True)
-            if country_text and len(country_text) < 50 and country_text not in countries:
-                if not any(word in country_text.lower() for word in ['жанр', 'режиссер', 'актер', 'год', 'время']):
-                    countries.append(country_text)
-    
-    # Парсим ближайшую дату сеансов из календаря
-    nearest_show_date = parse_schedule_calendar(soup)
-    
-    # Парсим время сеансов
-    showtimes = parse_showtimes_from_page(soup)
-    
-    # Парсим баннер фильма
-    banner_url = parse_movie_banner(soup)
-    
-    # Парсим описание фильма
-    description = parse_movie_description(soup)
-    
-    # Парсим возрастной рейтинг
-    age_rating = parse_age_rating(soup)
-    
-    logger.debug(f"Парсинг завершен. Баннер: {'✅' if banner_url else '❌'}, Описание: {'✅' if description else '❌'}, Возраст: {'✅' if age_rating else '❌'}")
-    
-    return countries, nearest_show_date, showtimes, banner_url, description, age_rating
+    logger.info(f"Итого уникальных фильмов: {len(all_movies)} на {page_count} страницах")
+    return all_movies
 
-def create_calendar_event(movie_data):
-    """
-    Создать КРАСИВОЕ событие календаря с эмоджи и расширенной информацией
-    """
-    title = movie_data['title']
-    times = movie_data['times']
-    countries = movie_data['countries']
-    movie_url = movie_data['url']
-    nearest_show_date = movie_data.get('nearest_show_date')
-    banner_url = movie_data.get('banner_url')
-    description = movie_data.get('description')
-    age_rating = movie_data.get('age_rating')
-    
-    # Проверка на исключенные страны
-    if any(country in EXCLUDE_COUNTRIES for country in countries):
-        logger.debug(f"Пропуск фильма '{title}' - страна в списке исключений: {countries}")
+def create_event(movie: Dict[str, Any], details: Dict[str, Any], exclude_country: str = 'Россия') -> Optional[Event]:
+    """Создаёт all-day событие без уведомлений"""
+    # Проверяем страну (fallback: предполагаем не российский, если не указано)
+    if 'country' in details and exclude_country.lower() in details['country'].lower():
+        logger.info(f"Пропуск российского фильма: {movie['title']}")
         return None
-    
-    # Определение даты и времени события
-    if nearest_show_date:
-        event_date = nearest_show_date
-        logger.debug(f"Используется дата из расписания: {event_date}")
-    else:
-        event_date = datetime.now().date() + timedelta(days=1)
-        logger.debug(f"Используется дата по умолчанию: {event_date}")
-    
-    # Определение времени
-    if times:
-        try:
-            time_str = times[0]
-            show_time = datetime.strptime(time_str, '%H:%M').time()
-            event_datetime = datetime.combine(event_date, show_time)
-        except ValueError:
-            event_datetime = datetime.combine(event_date, datetime.min.time().replace(hour=19))
-    else:
-        event_datetime = datetime.combine(event_date, datetime.min.time().replace(hour=19))
-    
-    # Создание события
-    event = Event()
-    # Добавляем эмоджи хлопушки перед названием
-    event.name = f"🎬 {title}"
-    event.begin = event_datetime
-    event.end = event_datetime + timedelta(hours=2)
-    
-    # Создание КРАСИВОГО описания с эмоджи
+
+    # Дата: из деталей или fallback завтра
+    event_date = details.get('date', (datetime.now() + timedelta(days=1)).date())
+    event_date_str = event_date.strftime('%Y%m%d')
+
+    # Заголовок с эмодзи
+    summary = f"🎥 {movie['title']}"
+
+    # Описание в Markdown
     description_parts = []
-    
-    # Заголовок с эмоджи
-    description_parts.append(f"🎬 {title}")
-    description_parts.append("=" * 50)
-    
-    # Основная информация
-    if age_rating:
-        description_parts.append(f"🔞 Возраст: {age_rating}")
-    
-    if countries:
-        country_emoji = "🌍"
-        description_parts.append(f"{country_emoji} Страна: {', '.join(countries[:3])}")
-    
-    # Описание фильма
-    if description:
-        description_parts.append("")
-        description_parts.append("📖 О фильме:")
-        description_parts.append(description[:500] + ("..." if len(description) > 500 else ""))
-    
-    # Баннер
-    if banner_url:
-        description_parts.append("")
-        description_parts.append(f"🖼️ Постер: {banner_url}")
-    
-    # Информация о сеансах
-    description_parts.append("")
-    description_parts.append("🎭 Расписание:")
-    if times:
-        description_parts.append(f"⏰ Сеансы: {', '.join(times[:5])}")
-    
-    if nearest_show_date:
-        description_parts.append(f"📅 Ближайший показ: {nearest_show_date.strftime('%d.%m.%Y')}")
-    
-    description_parts.append(f"📅 Дата события: {event_datetime.strftime('%d.%m.%Y %H:%M')}")
-    
-    # Источник
-    if movie_url:
-        description_parts.append("")
-        description_parts.append(f"🔗 Подробности: {movie_url}")
-    
-    event.description = '\n'.join(description_parts)
-    if movie_url:
-        event.url = movie_url
-    
-    logger.info(f"Создано красивое событие: 🎬 {title} на {event_datetime.strftime('%d.%m.%Y %H:%M')}")
+    if 'age' in details:
+        description_parts.append(f"🎭 Рейтинг: {details['age']}")
+    if 'banner' in details:
+        description_parts.append(f"\n[![Баннер фильма]]({details['banner']})")
+    if 'description' in details:
+        description_parts.append(f"\n📜 О фильме:\n{details['description']}")
+    description_parts.append("\n🗓️ Событие на весь день: фильм в кинотеатрах Перми. Проверьте актуальное расписание на afisha.ru.")
+    description_parts.append(f"\n📍 Источник: {movie['url']}")
+
+    description = '\n'.join(description_parts)
+
+    # Создаём событие
+    event = Event()
+    event.add('uid', f"afisha-movie-{hash(movie['title'])}@maxytre.github.io")
+    event.add('summary', summary)
+    event.add('dtstart', datetime.strptime(event_date_str, '%Y%m%d').date())  # VALUE=DATE автоматически
+    event.add('dtend', (datetime.strptime(event_date_str, '%Y%m%d').date() + timedelta(days=1)))  # Следующий день
+    event.add('description', description)
+    event.add('location', 'Кинотеатры Перми')
+    # Без VALARM - нет уведомлений
+    # Без времени - all-day
+
+    logger.info(f"Создано событие: {summary} на {event_date}")
     return event
 
 def main():
-    """
-    Парсинг и генерация календаря с поддержкой лимитов и РАСШИРЕННОЙ информацией
-    """
-    logger.info("🎬 Парсинг расписания кинотеатров Перми с РАСШИРЕННОЙ информацией о фильмах")
-    
-    if MAX_MOVIES:
-        logger.info(f"Установлен лимит фильмов: {MAX_MOVIES}")
-    else:
-        logger.info("❌ Лимит фильмов ОТКЛЮЧЕН - обрабатываются ВСЕ найденные")
-    
-    if MAX_PAGES:
-        logger.info(f"Установлен лимит страниц: {MAX_PAGES}")
-    else:
-        logger.info("❌ Лимит страниц ОТКЛЮЧЕН - парсятся ВСЕ существующие")
-        
-    logger.info(f"Пропуск деталей: {'ДА (только основная информация)' if SKIP_DETAILS else 'НЕТ (ПОЛНАЯ информация: страны, баннер, описание, возраст)'}")
-    logger.info(f"Базовая задержка: {BASE_DELAY} сек")
-    logger.info(f"Исключенные страны: {EXCLUDE_COUNTRIES}")
-    
-    base_schedule_url = 'https://www.afisha.ru/prm/schedule_cinema/'
-    
-    try:
-        # Парсим все страницы расписания
-        all_movies_data = parse_all_schedule_pages(base_schedule_url)
-        
-        if not all_movies_data:
-            logger.error("Не найдено фильмов ни на одной странице")
-            cal = Calendar()
-            test_event = Event()
-            test_event.name = "🎬 Фильмы не найдены"
-            test_event.begin = datetime.now() + timedelta(days=1)
-            test_event.end = test_event.begin + timedelta(hours=2)
-            test_event.description = "Не удалось найти фильмы в расписании кинотеатров"
-            cal.events.add(test_event)
-        else:
-            cal = Calendar()
-            successful_events = 0
-            
-            total_movies = len(all_movies_data)
-            logger.info(f"🎯 Начинаем обработку {total_movies} найденных фильмов с РАСШИРЕННЫМИ деталями")
-            
-            # Обработка каждого фильма с расширенной информацией
-            for idx, movie_data in enumerate(all_movies_data, 1):
-                try:
-                    logger.info(f"Обработка {idx}/{total_movies}: {movie_data['title']}")
-                    
-                    # Получаем РАСШИРЕННУЮ информацию
-                    if not SKIP_DETAILS and movie_data['url']:
-                        logger.debug(f"Получение расширенных деталей для фильма {idx}")
-                        countries, nearest_date, detailed_times, banner_url, description, age_rating = parse_movie_details_and_schedule(movie_data['url'])
-                        
-                        movie_data['countries'] = countries
-                        movie_data['nearest_show_date'] = nearest_date
-                        movie_data['banner_url'] = banner_url
-                        movie_data['description'] = description
-                        movie_data['age_rating'] = age_rating
-                        
-                        # Дополняем время сеансов
-                        if detailed_times:
-                            all_times = list(set(movie_data['times'] + detailed_times))
-                            movie_data['times'] = sorted(all_times)
-                    else:
-                        if SKIP_DETAILS:
-                            logger.debug(f"Пропуск деталей для фильма {idx} (флаг --skip-details)")
-                        movie_data['countries'] = []
-                        movie_data['nearest_show_date'] = None
-                        movie_data['banner_url'] = None
-                        movie_data['description'] = None
-                        movie_data['age_rating'] = None
-                    
-                    # Создаем КРАСИВОЕ событие календаря
-                    event = create_calendar_event(movie_data)
-                    
-                    if event:
-                        cal.events.add(event)
-                        successful_events += 1
-                    
-                    # Прогресс каждые 10 фильмов
-                    if idx % 10 == 0:
-                        logger.info(f"📊 Обработано {idx}/{total_movies} фильмов, создано {successful_events} событий")
-                    
-                    # Дополнительная задержка между фильмами
-                    if idx < total_movies:
-                        smart_delay('default')
-                    
-                except Exception as e:
-                    logger.error(f"Ошибка при обработке фильма {movie_data['title']}: {e}")
-                    continue
-            
-            logger.info(f"✅ ЗАВЕРШЕНО: обработано {total_movies} фильмов, создано {successful_events} красивых событий")
-        
-        # Сохранение результата
-        with open('calendar.ics', 'w', encoding='utf-8') as f:
-            f.writelines(cal)
-        
-        logger.info(f"📅 Календарь сохранен: calendar.ics ({len(cal.events)} событий)")
-        print(f"✅ Готово: сохранён calendar.ics ({len(cal.events)} событий)")
-        
-        if os.path.exists('calendar.ics'):
-            file_size = os.path.getsize('calendar.ics')
-            logger.info(f"📁 Размер файла: {file_size} байт")
-        
-    except Exception as e:
-        logger.error(f"Критическая ошибка: {e}")
-        cal = Calendar()
-        error_event = Event()
-        error_event.name = "🎬 Ошибка парсинга"
-        error_event.begin = datetime.now() + timedelta(days=1)
-        error_event.end = error_event.begin + timedelta(hours=2)
-        error_event.description = f"Произошла ошибка при парсинге: {str(e)}"
-        cal.events.add(error_event)
-        
-        with open('calendar.ics', 'w', encoding='utf-8') as f:
-            f.writelines(cal)
-        
-        raise
+    parser = argparse.ArgumentParser(description="Парсер афиши кинотеатров Перми")
+    parser.add_argument('--exclude-country', default='Россия', help='Исключить фильмы страны (по умолчанию: Россия)')
+    parser.add_argument('--delay', type=int, default=5, help='Базовая задержка в секундах')
+    parser.add_argument('--skip-details', action='store_true', help='Пропустить детальный парсинг (быстрее)')
+    parser.add_argument('--max-movies', type=int, default=None, help='Максимум фильмов (по умолчанию: без лимита)')
+    parser.add_argument('--max-pages', type=int, default=None, help='Максимум страниц (по умолчанию: без лимита)')
+
+    args = parser.parse_args()
+
+    # Глобальная задержка
+    for key in DELAYS:
+        DELAYS[key] *= (args.delay / 5.0)  # Масштабируем по --delay
+
+    logger.info("🚀 Запуск парсера афиши кинотеатров Перми")
+    logger.info(f"Режим: {'Быстрый (без деталей)' if args.skip_details else 'Полный'}")
+    if args.max_movies:
+        logger.info(f"Лимит фильмов: {args.max_movies}")
+    if args.max_pages:
+        logger.info(f"Лимит страниц: {args.max_pages}")
+
+    session = requests.Session()
+    session.headers.update(HEADERS)
+
+    # Парсинг всех страниц
+    all_movies = parse_all_schedule_pages(session, args.max_pages)
+
+    if not all_movies:
+        logger.error("Нет фильмов для обработки")
+        return
+
+    # Ограничение по фильмам
+    if args.max_movies:
+        all_movies = all_movies[:args.max_movies]
+        logger.info(f"Ограничено до {len(all_movies)} фильмов")
+
+    events = []
+    processed = 0
+    for i, movie in enumerate(all_movies, 1):
+        details = {}
+        if not args.skip_details:
+            details = extract_movie_detail(session, movie['url'])
+
+        event = create_event(movie, details, args.exclude_country)
+        if event:
+            events.append(event)
+
+        processed += 1
+        if processed % 10 == 0:
+            logger.info(f"Обработано {processed}/{len(all_movies)} фильмов, создано {len(events)} событий")
+
+        # Задержка между фильмами
+        if not args.skip_details:
+            smart_delay('detail', 0.5)  # Меньше между фильмами
+
+    # Создание календаря
+    cal = Calendar()
+    cal.add('prodid', '-//Afisha Movie Calendar//MaxYtre//RU')
+    cal.add('version', '2.0')
+    cal.add('calscale', 'GREGORIAN')
+    cal.add('method', 'PUBLISH')
+
+    for event in events:
+        cal.add_component(event)
+
+    # Сохранение
+    with open('calendar.ics', 'wb') as f:
+        f.write(cal.to_ical())
+
+    logger.info(f"✅ Завершено: {len(events)} событий сохранено в calendar.ics")
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        logger.info("Парсинг прерван пользователем")
-    except Exception as e:
-        logger.error(f"Критическая ошибка: {e}")
-        raise
+    main()
