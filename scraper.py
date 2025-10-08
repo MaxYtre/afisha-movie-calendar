@@ -17,20 +17,25 @@ def fetch_month(offset_months):
 def parse_films(html):
     soup = BeautifulSoup(html, "html.parser")
     items = []
-    current_date = None
-    for elem in soup.select("[data-test='GROUP-DATE'], div.V68Cw"):
-        if elem.name == "h2":
-            current_date = datetime.strptime(
-                elem.text.strip() + f" {datetime.now().year}",
-                "%d %B %Y"
-            ).date()
-        else:
-            title_tag = elem.select_one("a[data-test='LINK ITEM-NAME']")
-            if not title_tag or not current_date:
+    # Проходим по блокам даты и карточкам
+    for section in soup.select("section[data-test='DATA-SLIDER']"):
+        # Группа с датой
+        date_tag = section.select_one("h2[data-test='GROUP-DATE']")
+        if not date_tag:
+            continue
+        # Преобразуем «9 октября» в дату
+        group_date = datetime.strptime(
+            date_tag.text.strip() + f" {datetime.now().year}",
+            "%d %B %Y"
+        ).date()
+        # Все карточки в этой группе
+        for card in section.select("div.V68Cw"):
+            title_link = card.select_one("a[data-test='LINK ITEM-NAME']")
+            if not title_link:
                 continue
-            title = title_tag.text.strip()
-            link = "https://www.afisha.ru" + title_tag["href"]
-            items.append({"title": title, "date": current_date, "link": link})
+            title = title_link.text.strip()
+            link = "https://www.afisha.ru" + title_link["href"]
+            items.append({"title": title, "date": group_date, "link": link})
     return items
 
 def filter_non_russian(films):
@@ -38,12 +43,14 @@ def filter_non_russian(films):
     for film in films:
         resp = requests.get(film["link"], headers=HEADERS)
         soup = BeautifulSoup(resp.text, "html.parser")
-        country_text = ""
-        for fact in soup.select(".facts__item"):
+        # Ищем факт «Страна» в списке facts__item
+        country = ""
+        fact_items = soup.select(".facts__item")
+        for fact in fact_items:
             if "Страна" in fact.text:
-                country_text = fact.text
+                country = fact.text
                 break
-        if "Россия" in country_text:
+        if "Россия" in country:
             continue
         result.append(film)
     return result
