@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Конфигурация и параметры
-MAX_MOVIES = 50              # Увеличено до разумного значения
+MAX_MOVIES = 50              # Разумное значение по умолчанию
 MAX_RETRIES = 5
 BACKOFF_FACTOR = 2
 BASE_DELAY = 2               # seconds
@@ -50,19 +50,12 @@ parser.add_argument(
     default=50,
     help='Максимальное число фильмов для обработки'
 )
-parser.add_argument(
-    '--city',
-    type=str,
-    default='perm',
-    help='Город для парсинга (по умолчанию: perm)'
-)
 args = parser.parse_args()
 
 # Используем аргументы, если они переданы
 if args.exclude_country:
     EXCLUDE_COUNTRIES = args.exclude_country
 MAX_MOVIES = args.max_movies
-CITY = args.city
 
 def safe_delay(delay=BASE_DELAY):
     """
@@ -115,149 +108,189 @@ def get_soup(url, retries=MAX_RETRIES):
 
     return None
 
-def extract_movie_links(soup, base_url):
+def extract_movie_data_from_schedule(soup):
     """
-    Извлечь ссылки на страницы фильмов из списка
+    Извлечь данные о фильмах из расписания кинотеатров
     """
-    movie_links = []
+    movies_data = []
 
-    # Поиск ссылок на фильмы с различными селекторами
-    link_selectors = [
-        'a[href*="/movie/"]',
-        'a[data-test*="LINK"][href*="/movie/"]',
-        '.movie-link',
-        'a[href*="/cinema/movie/"]'
+    # Поиск блоков с фильмами в расписании
+    movie_selectors = [
+        '.movie-item',
+        '.film-item', 
+        '.schedule-item',
+        '[data-movie]',
+        '.movie',
+        '.film',
+        'article',
+        '.content-item'
     ]
 
-    for selector in link_selectors:
-        links = soup.select(selector)
-        for link in links:
-            href = link.get('href')
-            if href and '/movie/' in href:
-                full_url = urljoin(base_url, href)
-                if full_url not in movie_links:
-                    movie_links.append(full_url)
+    movie_elements = []
+    for selector in movie_selectors:
+        elements = soup.select(selector)
+        if elements:
+            movie_elements = elements
+            logger.info(f"Найдены элементы с селектором: {selector} ({len(elements)} шт.)")
+            break
 
-    logger.info(f"Найдено {len(movie_links)} ссылок на фильмы")
-    return movie_links
+    if not movie_elements:
+        # Если стандартные селекторы не работают, ищем по ссылкам
+        links = soup.find_all('a', href=True)
+        movie_links = [link for link in links if 'movie' in link['href'] or 'film' in link['href']]
 
-def parse_release_dates(soup):
-    """
-    Парсинг дат выхода фильма из различных источников на странице
-    """
-    release_dates = []
+        for link in movie_links[:MAX_MOVIES]:
+            title = link.get_text(strip=True)
+            if title and len(title) > 3:
+                movie_data = {
+                    'title': title,
+                    'url': urljoin('https://www.afisha.ru', link['href']),
+                    'times': [],
+                    'countries': []
+                }
+                movies_data.append(movie_data)
 
-    # Поиск дат в различных форматах
-    date_patterns = [
-        r'(\d{1,2})\s+(января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\s+(\d{4})',
-        r'(\d{4})-(\d{2})-(\d{2})',
-        r'(\d{1,2})\.(\d{1,2})\.(\d{4})'
-    ]
+        logger.info(f"Найдено {len(movies_data)} фильмов через ссылки")
+        return movies_data
 
-    # Поиск в тексте страницы
-    page_text = soup.get_text()
+    # Обработка найденных элементов фильмов
+    for element in movie_elements[:MAX_MOVIES]:
+        try:
+            # Поиск названия фильма
+            title_selectors = ['h1', 'h2', 'h3', '.title', '.name', 'a', 'strong']
+            title = None
 
-    for pattern in date_patterns:
-        matches = re.finditer(pattern, page_text)
-        for match in matches:
-            try:
-                if 'января' in match.group() or 'февраля' in match.group():  # Российский формат
-                    month_map = {
-                        'января': '01', 'февраля': '02', 'марта': '03', 'апреля': '04',
-                        'мая': '05', 'июня': '06', 'июля': '07', 'августа': '08',
-                        'сентября': '09', 'октября': '10', 'ноября': '11', 'декабря': '12'
-                    }
-                    day, month_name, year = match.groups()
-                    month = month_map.get(month_name, '01')
-                    date_str = f"{year}-{month}-{day.zfill(2)}"
-                else:
-                    date_str = match.group().replace('.', '-')
+            for sel in title_selectors:
+                title_elem = element.select_one(sel)
+                if title_elem:
+                    title = title_elem.get_text(strip=True)
+                    if title and len(title) > 3:
+                        break
 
-                parsed_date = datetime.strptime(date_str, '%Y-%m-%d')
-                if parsed_date not in release_dates:
-                    release_dates.append(parsed_date)
-            except ValueError:
+            if not title:
                 continue
 
-    return release_dates
+            # Поиск времени сеансов
+            time_patterns = [
+                r'(\d{1,2}[:.:]\d{2})',
+                r'(\d{1,2}:\d{2})',
+                r'(\d{1,2}\.\d{2})'
+            ]
 
-def parse_movie_page(soup, url):
+            times = []
+            element_text = element.get_text()
+            for pattern in time_patterns:
+                matches = re.findall(pattern, element_text)
+                for match in matches:
+                    try:
+                        # Приводим к стандартному формату
+                        time_str = match.replace('.', ':')
+                        parsed_time = datetime.strptime(time_str, '%H:%M')
+                        times.append(time_str)
+                    except ValueError:
+                        continue
+
+            # Поиск ссылки на фильм
+            movie_url = None
+            link_elem = element.find('a', href=True)
+            if link_elem:
+                movie_url = urljoin('https://www.afisha.ru', link_elem['href'])
+
+            movie_data = {
+                'title': title,
+                'url': movie_url,
+                'times': times,
+                'countries': []  # Будет заполнено позже при парсинге страницы фильма
+            }
+
+            movies_data.append(movie_data)
+            logger.debug(f"Добавлен фильм: {title} ({len(times)} сеансов)")
+
+        except Exception as e:
+            logger.error(f"Ошибка при обработке элемента фильма: {e}")
+            continue
+
+    logger.info(f"Извлечено {len(movies_data)} фильмов из расписания")
+    return movies_data
+
+def parse_movie_details(movie_url):
     """
-    Разобрать страницу фильма и вернуть Event или None
+    Получить дополнительные данные о фильме со страницы фильма
     """
+    if not movie_url:
+        return []
+
+    soup = get_soup(movie_url)
     if not soup:
-        return None
+        return []
 
-    # Поиск названия фильма с разными селекторами
-    title_selectors = [
-        'h1',
-        '[data-test="ITEM-NAME"]',
-        '.movie-title',
-        '.film-title',
-        'title'
-    ]
-
-    title = None
-    for selector in title_selectors:
-        title_el = soup.select_one(selector)
-        if title_el:
-            title = title_el.get_text(strip=True)
-            if title and len(title) > 5:  # Проверка на разумную длину
-                break
-
-    if not title:
-        logger.warning(f"Не удалось найти название для {url}")
-        return None
-
-    logger.debug(f"Найден фильм: {title}")
+    countries = []
 
     # Поиск информации о стране
-    countries = []
     country_selectors = [
         '[data-test="ITEM-META"] a',
         '.country',
         '.film-country',
-        'span:contains("Страна")'
+        '.movie-country',
+        'span:contains("Страна")',
+        '.meta-info'
     ]
 
     for selector in country_selectors:
         country_elements = soup.select(selector)
         for el in country_elements:
             country_text = el.get_text(strip=True)
-            if country_text and len(country_text) < 50:  # Фильтр слишком длинных текстов
+            if country_text and len(country_text) < 50 and country_text not in countries:
                 countries.append(country_text)
+
+    return countries
+
+def create_calendar_event(movie_data):
+    """
+    Создать событие календаря для фильма
+    """
+    title = movie_data['title']
+    times = movie_data['times']
+    countries = movie_data['countries']
+    movie_url = movie_data['url']
 
     # Проверка на исключенные страны
     if any(country in EXCLUDE_COUNTRIES for country in countries):
         logger.debug(f"Пропуск фильма '{title}' - страна в списке исключений: {countries}")
         return None
 
-    # Поиск дат релиза
-    release_dates = parse_release_dates(soup)
-
-    # Если даты не найдены, используем текущую дату + несколько дней
-    if not release_dates:
-        today = datetime.now()
-        release_dates = [today + timedelta(days=random.randint(1, 30))]
-        logger.debug(f"Используется случайная дата для '{title}'")
+    # Определение времени события
+    today = datetime.now().date()
+    if times:
+        # Используем первое время сеанса
+        try:
+            time_str = times[0]
+            show_time = datetime.strptime(time_str, '%H:%M').time()
+            event_datetime = datetime.combine(today, show_time)
+        except ValueError:
+            event_datetime = datetime.now() + timedelta(hours=1)
+    else:
+        # Если время не найдено, планируем на завтра
+        event_datetime = datetime.combine(today + timedelta(days=1), datetime.min.time().replace(hour=19))
 
     # Создание события
     event = Event()
     event.name = title
-    event.begin = min(release_dates)
-    event.end = event.begin + timedelta(hours=2)
+    event.begin = event_datetime
+    event.end = event_datetime + timedelta(hours=2)
 
     # Создание описания
     description_parts = [f"Фильм: {title}"]
     if countries:
-        description_parts.append(f"Страна: {', '.join(countries[:3])}")  # Ограничиваем количество стран
-    if len(release_dates) > 1:
-        dates_str = ', '.join([d.strftime('%d.%m.%Y') for d in release_dates[:5]])
-        description_parts.append(f"Даты показов: {dates_str}")
-    description_parts.append(f"Источник: {url}")
+        description_parts.append(f"Страна: {', '.join(countries[:3])}")
+    if times:
+        description_parts.append(f"Сеансы: {', '.join(times[:5])}")
+    if movie_url:
+        description_parts.append(f"Источник: {movie_url}")
 
     event.description = '\n'.join(description_parts)
-    event.url = url
+    if movie_url:
+        event.url = movie_url
 
     logger.info(f"Создано событие для фильма: {title}")
     return event
@@ -266,82 +299,71 @@ def main():
     """
     Основной цикл парсинга и генерации календаря
     """
-    logger.info(f"Начало парсинга афиши для города: {CITY}")
+    logger.info("Начало парсинга расписания кинотеатров Перми")
     logger.info(f"Максимум фильмов: {MAX_MOVIES}")
     logger.info(f"Исключенные страны: {EXCLUDE_COUNTRIES}")
 
-    # Различные возможные URL для разных городов
-    base_urls = [
-        f'https://www.afisha.ru/{CITY}/cinema/',
-        f'https://www.afisha.ru/movie/schedule/{CITY}/',
-        'https://www.afisha.ru/data-vyhoda/',
-        'https://www.afisha.ru/movie/y2025/'
-    ]
+    # URL для парсинга расписания кинотеатров
+    schedule_url = 'https://www.afisha.ru/prm/schedule_cinema/'
 
-    all_movie_urls = []
-
-    # Попробуем получить ссылки с разных страниц
-    for base_url in base_urls:
-        try:
-            logger.info(f"Парсинг страницы: {base_url}")
-            soup = get_soup(base_url)
-            if soup:
-                movie_links = extract_movie_links(soup, base_url)
-                all_movie_urls.extend(movie_links)
-
-                # Если уже собрали достаточно ссылок, прекращаем
-                if len(all_movie_urls) >= MAX_MOVIES:
-                    break
-
-            safe_delay(PAGE_DELAY)
-
-        except Exception as e:
-            logger.error(f"Ошибка при парсинге {base_url}: {e}")
-            continue
-
-    # Удаляем дубликаты и ограничиваем количество
-    all_movie_urls = list(set(all_movie_urls))[:MAX_MOVIES]
-
-    if not all_movie_urls:
-        logger.error("Не удалось найти ссылки на фильмы")
-        # Создаем тестовое событие
-        cal = Calendar()
-        test_event = Event()
-        test_event.name = "Тестовый фильм"
-        test_event.begin = datetime.now() + timedelta(days=1)
-        test_event.end = test_event.begin + timedelta(hours=2)
-        test_event.description = "Тестовое событие - парсинг не удался"
-        cal.events.add(test_event)
-    else:
-        logger.info(f"Найдено {len(all_movie_urls)} уникальных URL фильмов")
-
-        # Инициализация календаря
-        cal = Calendar()
-        successful_events = 0
-
-        # Обработка каждой страницы фильма
-        for idx, url in enumerate(all_movie_urls, 1):
-            try:
-                logger.info(f"Обработка {idx}/{len(all_movie_urls)}: {url}")
-                soup = get_soup(url)
-                event = parse_movie_page(soup, url)
-
-                if event:
-                    cal.events.add(event)
-                    successful_events += 1
-                    logger.info(f"Добавлен фильм: {event.name}")
-
-                # Задержка между запросами
-                safe_delay()
-
-            except Exception as e:
-                logger.error(f"Ошибка при обработке {url}: {e}")
-                continue
-
-        logger.info(f"Успешно обработано {successful_events} фильмов")
-
-    # Сохранение результата
     try:
+        logger.info(f"Парсинг расписания: {schedule_url}")
+        schedule_soup = get_soup(schedule_url)
+
+        if not schedule_soup:
+            logger.error("Не удалось получить страницу расписания")
+            # Создаем тестовое событие
+            cal = Calendar()
+            test_event = Event()
+            test_event.name = "Расписание недоступно"
+            test_event.begin = datetime.now() + timedelta(days=1)
+            test_event.end = test_event.begin + timedelta(hours=2)
+            test_event.description = "Не удалось получить расписание с сайта afisha.ru"
+            cal.events.add(test_event)
+        else:
+            # Извлекаем данные о фильмах из расписания
+            movies_data = extract_movie_data_from_schedule(schedule_soup)
+
+            if not movies_data:
+                logger.warning("Не найдено фильмов в расписании")
+                # Создаем тестовое событие
+                cal = Calendar()
+                test_event = Event()
+                test_event.name = "Нет фильмов в расписании"
+                test_event.begin = datetime.now() + timedelta(days=1)
+                test_event.end = test_event.begin + timedelta(hours=2)
+                test_event.description = "В расписании кинотеатров не найдено фильмов"
+                cal.events.add(test_event)
+            else:
+                # Инициализация календаря
+                cal = Calendar()
+                successful_events = 0
+
+                # Обработка каждого фильма
+                for idx, movie_data in enumerate(movies_data[:MAX_MOVIES], 1):
+                    try:
+                        logger.info(f"Обработка {idx}/{len(movies_data)}: {movie_data['title']}")
+
+                        # Получаем дополнительную информацию о фильме
+                        if movie_data['url']:
+                            countries = parse_movie_details(movie_data['url'])
+                            movie_data['countries'] = countries
+                            safe_delay()
+
+                        # Создаем событие календаря
+                        event = create_calendar_event(movie_data)
+
+                        if event:
+                            cal.events.add(event)
+                            successful_events += 1
+
+                    except Exception as e:
+                        logger.error(f"Ошибка при обработке фильма {movie_data['title']}: {e}")
+                        continue
+
+                logger.info(f"Успешно обработано {successful_events} фильмов")
+
+        # Сохранение результата
         with open('calendar.ics', 'w', encoding='utf-8') as f:
             f.writelines(cal)
 
@@ -354,7 +376,19 @@ def main():
             logger.info(f"Размер файла: {file_size} байт")
 
     except Exception as e:
-        logger.error(f"Ошибка при сохранении файла: {e}")
+        logger.error(f"Критическая ошибка: {e}")
+        # Создаем аварийное событие
+        cal = Calendar()
+        error_event = Event()
+        error_event.name = "Ошибка парсинга"
+        error_event.begin = datetime.now() + timedelta(days=1)
+        error_event.end = error_event.begin + timedelta(hours=2)
+        error_event.description = f"Произошла ошибка при парсинге: {str(e)}"
+        cal.events.add(error_event)
+
+        with open('calendar.ics', 'w', encoding='utf-8') as f:
+            f.writelines(cal)
+
         raise
 
 if __name__ == '__main__':
