@@ -25,13 +25,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Конфигурация и параметры
-MAX_MOVIES = 3              # Разумное значение по умолчанию
-MAX_RETRIES = 5
-BACKOFF_FACTOR = 2
-BASE_DELAY = 2               # seconds
-RANDOM_DELAY = 1             # seconds
-PAGE_DELAY = 3               # seconds
+# ОПТИМИЗИРОВАННЫЕ параметры для минимизации HTTP 429
+MAX_MOVIES = 3              # Уменьшено для меньшего количества запросов
+MAX_RETRIES = 3              # Уменьшено количество повторов
+BACKOFF_FACTOR = 3           # Увеличен фактор отката
+BASE_DELAY = 5               # Увеличена базовая задержка (было 2)
+RANDOM_DELAY = 3             # Увеличена случайная задержка (было 1)
+PAGE_DELAY = 8               # Увеличена задержка между страницами (было 3)
+DETAIL_DELAY = 12            # Специальная задержка для детальных страниц
 
 # Страны, фильмы которых НЕ включать в календарь
 EXCLUDE_COUNTRIES = ['Россия']
@@ -47,8 +48,14 @@ parser.add_argument(
 parser.add_argument(
     '--max-movies',
     type=int,
-    default=50,
+    default=3,
     help='Максимальное число фильмов для обработки'
+)
+parser.add_argument(
+    '--delay',
+    type=int,
+    default=5,
+    help='Базовая задержка между запросами в секундах'
 )
 args = parser.parse_args()
 
@@ -56,54 +63,94 @@ args = parser.parse_args()
 if args.exclude_country:
     EXCLUDE_COUNTRIES = args.exclude_country
 MAX_MOVIES = args.max_movies
+if args.delay:
+    BASE_DELAY = args.delay
 
-def safe_delay(delay=BASE_DELAY):
+def smart_delay(request_type='default'):
     """
-    Задержка между запросами с рандомизацией
+    Умная задержка с разными параметрами для разных типов запросов
     """
-    actual_delay = delay + random.uniform(0, RANDOM_DELAY)
+    delays = {
+        'default': BASE_DELAY,
+        'detail': DETAIL_DELAY,
+        'page': PAGE_DELAY,
+        'retry': BASE_DELAY * 2
+    }
+
+    base_delay = delays.get(request_type, BASE_DELAY)
+    actual_delay = base_delay + random.uniform(1, RANDOM_DELAY)
+
     time.sleep(actual_delay)
-    logger.debug(f"Задержка: {actual_delay:.2f} сек")
+    logger.debug(f"Задержка {request_type}: {actual_delay:.2f} сек")
 
-def get_soup(url, retries=MAX_RETRIES):
+def get_soup(url, retries=MAX_RETRIES, request_type='default'):
     """
-    Получить объект BeautifulSoup по URL с retry при HTTP 429
+    Получить объект BeautifulSoup по URL с улучшенной обработкой HTTP 429
     """
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
-        'Accept-Encoding': 'gzip, deflate',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'DNT': '1',
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Cache-Control': 'max-age=0'
     }
+
+    session = requests.Session()
+    session.headers.update(headers)
 
     delay = BASE_DELAY
     for attempt in range(1, retries + 1):
         try:
-            logger.debug(f"Попытка {attempt}/{retries} для {url}")
-            resp = requests.get(url, headers=headers, timeout=30)
+            logger.debug(f"Запрос {attempt}/{retries} для {url[:50]}...")
+
+            # Предварительная задержка перед каждым запросом
+            if attempt > 1:
+                smart_delay('retry')
+
+            resp = session.get(url, timeout=45)
 
             if resp.status_code == 429:
-                logger.warning(f"HTTP 429 для {url}, ожидание {delay} сек")
-                time.sleep(delay + random.uniform(0, RANDOM_DELAY))
+                wait_time = delay * BACKOFF_FACTOR
+                logger.warning(f"HTTP 429 для {url[:50]}... Ожидание {wait_time} сек (попытка {attempt})")
+                time.sleep(wait_time)
                 delay *= BACKOFF_FACTOR
                 continue
             elif resp.status_code == 404:
-                logger.warning(f"Страница не найдена: {url}")
+                logger.warning(f"Страница не найдена: {url[:50]}...")
                 return None
+            elif resp.status_code == 403:
+                logger.warning(f"Доступ запрещен (403): {url[:50]}...")
+                time.sleep(delay * 2)
+                delay *= 2
+                continue
 
             resp.raise_for_status()
-            logger.debug(f"Успешно получен ответ для {url}")
+            logger.debug(f"Успешный ответ для {url[:50]}... (статус: {resp.status_code})")
+
+            # Задержка после успешного запроса
+            smart_delay(request_type)
+
             return BeautifulSoup(resp.text, 'html.parser')
 
+        except requests.exceptions.Timeout:
+            logger.warning(f"Таймаут для {url[:50]}... (попытка {attempt})")
+            if attempt < retries:
+                time.sleep(delay)
+                delay *= BACKOFF_FACTOR
         except requests.exceptions.RequestException as e:
-            logger.error(f"Ошибка запроса для {url} (попытка {attempt}): {e}")
+            logger.error(f"Ошибка запроса для {url[:50]}... (попытка {attempt}): {e}")
             if attempt < retries:
                 time.sleep(delay)
                 delay *= BACKOFF_FACTOR
             else:
-                logger.error(f"Все попытки исчерпаны для {url}")
+                logger.error(f"Все попытки исчерпаны для {url[:50]}...")
                 return None
 
     return None
@@ -123,7 +170,9 @@ def extract_movie_data_from_schedule(soup):
         '.movie',
         '.film',
         'article',
-        '.content-item'
+        '.content-item',
+        '.list-item',
+        '.cinema-movie'
     ]
 
     movie_elements = []
@@ -186,7 +235,8 @@ def extract_movie_data_from_schedule(soup):
                         # Приводим к стандартному формату
                         time_str = match.replace('.', ':')
                         parsed_time = datetime.strptime(time_str, '%H:%M')
-                        times.append(time_str)
+                        if time_str not in times:  # Избегаем дубликатов
+                            times.append(time_str)
                     except ValueError:
                         continue
 
@@ -216,11 +266,15 @@ def extract_movie_data_from_schedule(soup):
 def parse_movie_details(movie_url):
     """
     Получить дополнительные данные о фильме со страницы фильма
+    ОПТИМИЗИРОВАНО: с увеличенными задержками
     """
     if not movie_url:
         return []
 
-    soup = get_soup(movie_url)
+    # Увеличенная задержка для детальных страниц
+    logger.debug(f"Получение деталей фильма: {movie_url[:50]}...")
+    soup = get_soup(movie_url, request_type='detail')
+
     if not soup:
         return []
 
@@ -233,7 +287,8 @@ def parse_movie_details(movie_url):
         '.film-country',
         '.movie-country',
         'span:contains("Страна")',
-        '.meta-info'
+        '.meta-info',
+        '.film-meta'
     ]
 
     for selector in country_selectors:
@@ -241,7 +296,9 @@ def parse_movie_details(movie_url):
         for el in country_elements:
             country_text = el.get_text(strip=True)
             if country_text and len(country_text) < 50 and country_text not in countries:
-                countries.append(country_text)
+                # Фильтрация нерелевантных данных
+                if not any(word in country_text.lower() for word in ['жанр', 'режиссер', 'актер', 'год', 'время']):
+                    countries.append(country_text)
 
     return countries
 
@@ -261,17 +318,22 @@ def create_calendar_event(movie_data):
 
     # Определение времени события
     today = datetime.now().date()
+    tomorrow = today + timedelta(days=1)
+
     if times:
         # Используем первое время сеанса
         try:
             time_str = times[0]
             show_time = datetime.strptime(time_str, '%H:%M').time()
+            # Если время уже прошло сегодня, планируем на завтра
             event_datetime = datetime.combine(today, show_time)
+            if event_datetime < datetime.now():
+                event_datetime = datetime.combine(tomorrow, show_time)
         except ValueError:
-            event_datetime = datetime.now() + timedelta(hours=1)
+            event_datetime = datetime.combine(tomorrow, datetime.min.time().replace(hour=19))
     else:
-        # Если время не найдено, планируем на завтра
-        event_datetime = datetime.combine(today + timedelta(days=1), datetime.min.time().replace(hour=19))
+        # Если время не найдено, планируем на завтра в 19:00
+        event_datetime = datetime.combine(tomorrow, datetime.min.time().replace(hour=19))
 
     # Создание события
     event = Event()
@@ -285,6 +347,7 @@ def create_calendar_event(movie_data):
         description_parts.append(f"Страна: {', '.join(countries[:3])}")
     if times:
         description_parts.append(f"Сеансы: {', '.join(times[:5])}")
+    description_parts.append(f"Дата: {event_datetime.strftime('%d.%m.%Y %H:%M')}")
     if movie_url:
         description_parts.append(f"Источник: {movie_url}")
 
@@ -298,9 +361,12 @@ def create_calendar_event(movie_data):
 def main():
     """
     Основной цикл парсинга и генерации календаря
+    ОПТИМИЗИРОВАНО: с контролем количества запросов
     """
     logger.info("Начало парсинга расписания кинотеатров Перми")
     logger.info(f"Максимум фильмов: {MAX_MOVIES}")
+    logger.info(f"Базовая задержка: {BASE_DELAY} сек")
+    logger.info(f"Задержка для деталей: {DETAIL_DELAY} сек")
     logger.info(f"Исключенные страны: {EXCLUDE_COUNTRIES}")
 
     # URL для парсинга расписания кинотеатров
@@ -308,7 +374,7 @@ def main():
 
     try:
         logger.info(f"Парсинг расписания: {schedule_url}")
-        schedule_soup = get_soup(schedule_url)
+        schedule_soup = get_soup(schedule_url, request_type='page')
 
         if not schedule_soup:
             logger.error("Не удалось получить страницу расписания")
@@ -339,16 +405,23 @@ def main():
                 cal = Calendar()
                 successful_events = 0
 
-                # Обработка каждого фильма
-                for idx, movie_data in enumerate(movies_data[:MAX_MOVIES], 1):
-                    try:
-                        logger.info(f"Обработка {idx}/{len(movies_data)}: {movie_data['title']}")
+                # ЛИМИТИРОВАННАЯ обработка фильмов для минимизации запросов
+                limited_movies = movies_data[:min(MAX_MOVIES, 15)]  # Не более 15 фильмов
+                logger.info(f"Обработка ограничена {len(limited_movies)} фильмами для минимизации HTTP 429")
 
-                        # Получаем дополнительную информацию о фильме
-                        if movie_data['url']:
+                # Обработка каждого фильма
+                for idx, movie_data in enumerate(limited_movies, 1):
+                    try:
+                        logger.info(f"Обработка {idx}/{len(limited_movies)}: {movie_data['title']}")
+
+                        # Получаем дополнительную информацию о фильме ТОЛЬКО для первых 10 фильмов
+                        if movie_data['url'] and idx <= 10:
+                            logger.debug(f"Получение деталей для фильма {idx}")
                             countries = parse_movie_details(movie_data['url'])
                             movie_data['countries'] = countries
-                            safe_delay()
+                        else:
+                            logger.debug(f"Пропуск деталей для фильма {idx} (экономия запросов)")
+                            movie_data['countries'] = []
 
                         # Создаем событие календаря
                         event = create_calendar_event(movie_data)
@@ -356,6 +429,11 @@ def main():
                         if event:
                             cal.events.add(event)
                             successful_events += 1
+
+                        # Дополнительная задержка между фильмами
+                        if idx < len(limited_movies):
+                            logger.debug(f"Пауза между фильмами...")
+                            smart_delay('default')
 
                     except Exception as e:
                         logger.error(f"Ошибка при обработке фильма {movie_data['title']}: {e}")
