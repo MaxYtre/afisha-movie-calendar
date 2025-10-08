@@ -2,8 +2,8 @@ name: Weekly Calendar Update
 
 on:
   schedule:
-    - cron: '0 12 * * MON'
-  workflow_dispatch:
+    - cron: cron: '0 18 * * *' # Ежедневно
+  workflow_dispatch:  # + ручной запуск
 
 permissions:
   contents: write
