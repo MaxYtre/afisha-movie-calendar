@@ -21,7 +21,6 @@ def parse_films(html):
         time_tag = card.find("time")
         if not time_tag or not time_tag.get("datetime"):
             continue
-        # datetime вида "2025-10-09"
         date = datetime.fromisoformat(time_tag["datetime"]).date()
         title_tag = card.find("h3")
         if not title_tag:
@@ -36,7 +35,6 @@ def filter_non_russian(films):
     for film in films:
         resp = requests.get(film["link"], headers=HEADERS)
         soup = BeautifulSoup(resp.text, "html.parser")
-        # ищем страну в блоке «Страна: …»
         country_text = ""
         for fact in soup.select(".facts__item"):
             if "Страна" in fact.text:
@@ -54,8 +52,8 @@ def build_calendar(films):
     for film in films:
         ev = Event()
         ev.add("summary", film["title"])
-        ev.add("dtstart", film["date"].date())
-        ev.add("dtend", film["date"].date() + timedelta(days=1))
+        ev.add("dtstart", film["date"])
+        ev.add("dtend", film["date"] + timedelta(days=1))
         ev.add("description", film["link"])
         cal.add_component(ev)
     with open(OUTPUT_FILE, "wb") as f:
@@ -67,6 +65,9 @@ def main():
         html = fetch_month(m)
         all_films.extend(parse_films(html))
     films = filter_non_russian(all_films)
+    print(f"Найдено фильмов: {len(films)}")
+    for f in films:
+        print(f)
     build_calendar(films)
 
 if __name__ == "__main__":
