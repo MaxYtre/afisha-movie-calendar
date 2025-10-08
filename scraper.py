@@ -14,7 +14,7 @@ from urllib.parse import urljoin, quote, urlparse, parse_qs
 import argparse
 
 # Конфигурация и параметры
-MAX_MOVIES = 1           # None или целое число — лимит фильмов
+MAX_MOVIES = None           # None или целое число — лимит фильмов
 MAX_RETRIES = 8
 BACKOFF_FACTOR = 2
 BASE_DELAY = 3              # seconds
@@ -50,14 +50,23 @@ def safe_delay(delay=BASE_DELAY):
 
 def get_soup(url):
     """
-    Получить объект BeautifulSoup по URL
+    Получить объект BeautifulSoup по URL с retry при HTTP 429
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (compatible; CalendarBot/1.0; +https://example.com/bot)'
     }
-    resp = requests.get(url, headers=headers)
+    delay = BASE_DELAY
+    for attempt in range(1, MAX_RETRIES + 1):
+        resp = requests.get(url, headers=headers)
+        if resp.status_code == 429:
+            # слишком много запросов — ждем и повторяем
+            time.sleep(delay + random.uniform(0, RANDOM_DELAY))
+            delay *= BACKOFF_FACTOR
+            continue
+        resp.raise_for_status()
+        return BeautifulSoup(resp.text, 'html.parser')
+    # Если не удалось после попыток — исключение
     resp.raise_for_status()
-    return BeautifulSoup(resp.text, 'html.parser')
 
 def parse_movie_page(soup, url):
     """
@@ -95,7 +104,11 @@ def parse_movie_page(soup, url):
     event.name = title
     event.begin = min(showtimes)
     event.end = max(showtimes) + timedelta(hours=2)
-    event.description = f"Сеансы: {', '.join(dt.strftime('%Y-%m-%d %H:%M') for dt in showtimes)}\nСтрана: {', '.join(countries)}\nИсточник: {url}"
+    event.description = (
+        f"Сеансы: {', '.join(dt.strftime('%Y-%m-%d %H:%M') for dt in showtimes)}\n"
+        f"Страна: {', '.join(countries)}\n"
+        f"Источник: {url}"
+    )
     event.url = url
     return event
 
@@ -110,7 +123,11 @@ def main():
     page = 1
     while True:
         list_url = f"{base_list_url}?page={page}"
-        soup = get_soup(list_url)
+        try:
+            soup = get_soup(list_url)
+        except requests.exceptions.HTTPError as e:
+            print(f"Превышен лимит запросов на {list_url}: {e}")
+            break
         links = soup.select('a[data-test="LINK"]')
         urls = [urljoin(base_list_url, a['href']) for a in links if '/movie/' in a['href']]
         if not urls or (MAX_MOVIES and len(movie_urls) >= MAX_MOVIES):
