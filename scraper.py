@@ -17,17 +17,20 @@ def fetch_month(offset_months):
 def parse_films(html):
     soup = BeautifulSoup(html, "html.parser")
     items = []
-    for card in soup.select("a[data-testid='card-link']"):
-        time_tag = card.find("time")
-        if not time_tag or not time_tag.get("datetime"):
-            continue
-        date = datetime.fromisoformat(time_tag["datetime"]).date()
-        title_tag = card.find("h3")
-        if not title_tag:
-            continue
-        title = title_tag.text.strip()
-        link = "https://www.afisha.ru" + card["href"]
-        items.append({"title": title, "date": date, "link": link})
+    current_date = None
+    for elem in soup.select("[data-test='GROUP-DATE'], div.V68Cw"):
+        if elem.name == "h2":
+            current_date = datetime.strptime(
+                elem.text.strip() + f" {datetime.now().year}",
+                "%d %B %Y"
+            ).date()
+        else:
+            title_tag = elem.select_one("a[data-test='LINK ITEM-NAME']")
+            if not title_tag or not current_date:
+                continue
+            title = title_tag.text.strip()
+            link = "https://www.afisha.ru" + title_tag["href"]
+            items.append({"title": title, "date": current_date, "link": link})
     return items
 
 def filter_non_russian(films):
